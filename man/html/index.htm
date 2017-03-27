@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>{gtitle} - 主页</title>
+	<!-- 全局css -->
+	{css}
+    <!-- 全局js -->
+	{js}
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
+		document.onselectstart = function(){
+			event.returnValue = false;
+		}
+		// 或者直接返回整个事件
+		document.onselectstart = function(){
+			return false;
+		}
+    </script>
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden"  >
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element text-center">
+                            <span><img class="img-circle"  src="/upd/face/{id}.jpg" width="64" height="64" onerror="this.src='/error/face.jpg'"></span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                               <span class="block m-t-xs"><strong class="font-bold">{group_name}</strong></span>
+                                <span class="text-muted text-xs block">{truename}<b class="caret" style="display:none;"></b></span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs" style="display:none;">
+                                <li><a class="J_menuItem" href="/man/?t=form_avatar">修改头像</a>
+                                </li>
+                                <li><a class="J_menuItem" href="/man/?t=profile">个人资料</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="/man/?t=exit">安全退出</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="logo-element">冠邦CMS
+                        </div>
+                    </li>
+                    {menu_list}
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row content-tabs">
+                <button class="roll-nav roll-left J_tabLeft navbar-minimalize"><i class="fa fa-bars"></i>
+                </button>
+                <button class="roll-nav roll-left J_tabLeft" style="left:40px;"><i class="fa fa-backward"></i>
+                </button>
+                <nav class="page-tabs J_menuTabs">
+                    <div class="page-tabs-content">
+                        <a href="javascript:;" class="active J_menuTab" data-id="/man/?t=main">首页</a>
+                    </div>
+                </nav>
+                <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
+                </button>
+                <div class="btn-group roll-nav roll-right">
+                    <button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span>
+
+                    </button>
+                    <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                        <li class="J_tabShowActive"><a>定位当前选项卡</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li class="J_tabCloseAll"><a>关闭全部选项卡</a>
+                        </li>
+                        <li class="J_tabCloseOther"><a>关闭其他选项卡</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="/man/?t=exit" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+            </div>
+            <div class="row J_mainContent" id="content-main">
+                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/man/?t=main" frameborder="0" data-id="/man/?t=main" seamless></iframe>
+            </div>
+            <div class="footer">
+                <div class="pull-right">Powered by {gtitle}
+                </div>
+            </div>
+        </div>
+        <!--右侧部分结束-->
+    </div>
+
+    <!-- 自定义js -->
+    <script src="/widget/Hplus/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/widget/Hplus/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/widget/Hplus/js/hplus.js?v=4.1.0"></script>
+    <script type="text/javascript" src="/widget/Hplus/js/contabs.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="/widget/Hplus/js/plugins/pace/pace.min.js"></script>
+
+</body>
+
+</html>

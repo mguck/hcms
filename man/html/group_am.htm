@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>用户组[添加/编辑]</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+{ppf}
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>用户组     <small>[添加/编辑]</small> </h5>
+				<div class="ibox-tools">
+					<a class="close-link" onclick="window.history.back(-1);">
+						<i class="fa fa-arrow-circle-left">返回</i>
+					</a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form id="form1" class="form-horizontal">
+					<input type="hidden" id="href_state" name="href_state" value="{href_state}"/>
+					<input type="text" id="group_id" name="group_id" value="{group_id}" style="display: none;"/>
+					<input type="text" id="do" name="do" value="{do}" style="display: none;"/>
+					<div class="form-group">    
+					  <label class="col-sm-12">名称</label>  
+					  <div class="col-sm-4"> <input id="group_name" name="group_name" type="text" class="form-control" maxlength="50"  placeholder="请输入名称" value=""> </div> 
+					</div> 
+					<div class="form-group"> 
+						<label class="col-sm-12">描述</label>   
+						<div class="col-sm-4"> <textarea id="group_desc" type="text" class="form-control" name="group_desc"></textarea> </div> 
+					</div>   
+					<div class="form-group">
+						<div class="col-sm-12"><button type="button" class="btn btn-success" id="btn"> 提交 </button> </div>
+					</div>  
+				</form> 
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+<script src="/widget/Hplus/js/plugins/iCheck/icheck.min.js"></script>
+<script>
+	$(function(){
+		var dotype=$("#do").val();
+		var group_id=$("#group_id").val();
+		if(dotype=="m"){               
+	        readID({"do":"r",id:group_id,frmid:"#form1",tpl:"osa_user_group"}); 
+	    }
+		
+		$("#btn").click(function(){
+			SaveAM({"do":dotype,id:group_id,frmid:"#form1",tpl:"osa_user_group",showok:"提交成功",callback:"dosome"});
+		});
+	})
+	function dosome(e,data){
+	   if(data.indexOf('ok')>-1){ 
+	      //history.go(-1);
+	      var href_state=$("#href_state").val();
+	      location.href=href_state;
+	   }
+	   else
+	      alert(data);
+	}  
+</script>
+</html>

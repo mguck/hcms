@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{WEB_NAME}</title>
+<meta name="keywords" content="{WEB_KEYWORD}">
+<meta name="description" content="{WEB_DES}">
+<link href="{WEB_URL}/html/css/page_messages_list.min.css" rel="stylesheet" type="text/css">
+<link href="{WEB_URL}/html/css/index.css" rel="stylesheet" type="text/css">
+<link href="{WEB_URL}/html/css/index2.css" rel="stylesheet" type="text/css">
+<link href="{WEB_URL}/html/css/list.min.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{WEB_URL}/html/js/jquery.js"></script>
+<script type="text/javascript" src="{WEB_URL}/html/js/jquery.SuperSlide.2.1.1.js"></script>
+<style>
+.slider-extra {
+    bottom: 20px;
+    float: right;
+    position: relative;
+}
+.slider-nav li {
+    background: #3e3e3e none repeat scroll 0 0;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    height: 9px;
+    margin: 0 3px;
+    overflow: hidden;
+    text-align: center;
+    width: 9px;
+}
+.slider-nav .current{
+    background: #b61b1f none repeat scroll 0 0;
+    color: #fff;
+}
+.slider-nav li {
+    display: inline-block;
+    height: 18px;
+    line-height: 16px;
+    width: 18px;font-family: "Microsoft YaHei","微软雅黑","SimSun","宋体";
+}
+</style>
+</head>  
+<body id="index">
+
+    <div class="pageWidth" id="box_root"> 
+      <!-- 头部导航开始 -->  
+      <div id="box_header"> 
+        <!-- 欢迎层开始 -->  
+        <div id="box_box_welcome"> 
+          <div class="columnSpace"> 
+            <div class="FrontSpecifies_show01-d3_c1"><div class="describe htmledit">
+       <div class="box_welcome">
+	您好！欢迎访问{WEB_NAME}</div></div>
+</div> 
+          </div> 
+        </div>  
+        <!-- 欢迎层结束 -->  
+        <!-- logo开始 -->  
+        <div id="box_header_sub1"> 
+          <div class="columnSpace"> 
+            <div class="FrontSpecifies_show01-d3_c1"><div class="describe htmledit">
+       <div style="float: left; widht: 617px; padding-top:12px;">
+	<a href="http://www.baidu.com/"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" height="87" id="FlashID" width="617"><param name="movie" value="/img/logo.swf"><param name="quality" value="high"><param name="wmode" value="opaque"><param name="swfversion" value="6.0.65.0"><!-- 此 param 标签提示使用 Flash Player 6.0 r65 和更高版本的用户下载最新版本的 Flash Player。如果您不想让用户看到该提示，请将其删除。 --><param name="expressinstall" value="Scripts/expressInstall.swf"><!-- 下一个对象标签用于非 IE 浏览器。所以使用 IECC 将其从 IE 隐藏。 --><!--[if !IE]>--><object data="{WEB_URL}/html/img/logo.swf" height="87" type="application/x-shockwave-flash" width="619"><!--<![endif]--><param name="quality" value="high"><param name="wmode" value="opaque"><param name="swfversion" value="6.0.65.0"><param name="expressinstall" value="Scripts/expressInstall.swf"><!-- 浏览器将以下替代内容显示给使用 Flash Player 6.0 和更低版本的用户。 -->
+	<div>
+		<h4>
+			此页面上的内容需要较新版本的 Adobe Flash Player。</h4>
+		<p>
+			<a href="http://www.adobe.com/go/getflashplayer"><img alt="获取 Adobe Flash Player" height="33" src="{WEB_URL}/html/img/get_flash_player.gif" width="112"></a></p>
+	</div>
+	<!--[if !IE]>--></object><!--<![endif]--></object></a></div>
+<img alt="" src="{WEB_URL}/html/img/9d005397-3d9e-446b-b377-962d7509088a.jpg" style="margin-top: 15px; float: right;"></div>
+</div> 
+          </div> 
+        </div>  
+        <!-- logo结束 -->  
+        <!-- 导航开始 -->  
+        <div id="box_header_sub2"> 
+          <div class="columnSpace" id="elem-FrontColumns_navigation01-1389419708527" name="栏目导航"> 
+
+<div class="FrontColumns_navigation01-d2_c1"><div class="mattblackmenu">
+		<ul class="nav-first">
+			<li class="first"><a href="{WEB_URL}/?t=index" >首页</a></li>
+			<!-- START menu_list --> 
+			<li><a href="{WEB_URL}/?t=list&c={id}&cst={cstyle}"  cid="{id}">{name}</a></li>	
+			<!-- END menu_list -->			
+			<li class="last"></li>	
+		</ul>
+	</div>
+	</div> 
+          </div> 
+        </div>  
+        <!-- 导航结束 -->  
+        <!-- banner开始 -->  
+        <div id="box_header_sub3"> 
+<div id="banner_slide">
+	<ul id="index-banner">
+  		<!-- START banner -->
+       <li><a href="javascript:void(0)"><img src="{WEB_URL}/upd/art_thumb/{thumb}" alt="{name}" text="{name}" /></a></li>
+        <!-- END banner -->
+    </ul>
+    <div class="slider-extra">
+                <ul class="slider-nav" id="banner-page"></ul>
+
+            </div>
+
+</div> 	
+<!--</div>-->
+<script type="text/javascript">
+		$("#banner_slide").slide({
+                    titCell: "#banner-page",
+                    mainCell: "#index-banner",
+                    effect: "left",
+                    scroll: 1,
+                    vis: 1,
+                    autoPlay: true,
+                    titOnClassName:"current",
+                    autoPage: "<li class='slider-item'> $ </li>",
+                    interTime: 5000
+                });
+
+					</script>
+
+        </div>  
+        <!-- banner结束 --> 
+      </div>  
+      <!-- 头部导航结束 -->   
+            <div id="box_main"> 
+        <div id="box_main_sub1"> 
+          <!-- 左边开始 -->  
+          <div id="box_main_sub1_sub1"> 
+            <div src="{WEB_URL}/html/img/list_title_bg.png" style="width: 210px;height: 49px;color: #fff;line-height: 49px;font-family: '宋体',Arial;font-size: 22px;background: url({WEB_URL}/html/img/list_title_bg.png) repeat-x;">{tpid_name}</div>
+            <div class="columnSpace">
+              <div class="FrontNewsCategory_bySameLevel01-d1_c1"><div class="menu-first">
+  <ul> 
+  <!-- START cate_list -->
+  <li><a class="menu-text1 current" href="{WEB_URL}/?t=list&c={id}&cst={cstyle}">{name}</a></li>
+  <!-- END cate_list -->	
+  </ul>
+                   
+	</div>
+</div>
+           </div>            
+          </div>  
+          <!--左边结束 --> 
+          <!-- 右边开始 -->  
+          <div id="box_main_sub1_sub2"> 
+            <!--InstanceBeginEditable name="box_main_sub1_sub2"-->  
+            <div class="columnSpace">
+              <!-- 装饰器样式开始 -->
+<div class="border_00">
+     <div class="border_00-topr">
+    <div class="border_00-topl">
+    </div>
+  </div>
+  <div class="border_00-mid">
+      <div class="borderContent"><div class="FrontMessages_customizeList01-d1_c1"><div class="comptitle_00"><strong class="titlestyle_00">{cid_name}</strong></div><div class="mestitle">
+			<p>
+			</p><p>
+				<span class="tolnumber">
+					</span>
+			<span class="name">&nbsp;</span></p>
+			</div>
+		<div class="center">
+			<!-- START consult_list -->
+			<ul class="title">
+				<li class="person">
+					<span><img src="{WEB_URL}/html/img/4.gif">留言人：</span>
+					<em class="foucetext">{name}</em>
+				</li>
+				<li class="fixed">
+					<ul>
+					    <li class="time">
+							<span class="left"><img src="{WEB_URL}/html/img/pic-time.gif">留言时间：</span>
+							<span class="right">{timestamp}</span>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="list">
+				<li class="li-con">
+					<div class="pic">&nbsp;</div>
+					<div class="info">
+						<span class="default-img"></span>
+						<span>留言内容：</span>
+						{content}
+					</div>
+				</li>
+				<span class="default-img"></span>
+				<li class="li-bottom">
+					<span>回复：</span>
+					{des}
+				</li>
+			</ul>
+			<!-- END consult_list -->	
+				</div>
+		<div class="skip-page">{page}</div>
+	  	</div>
+	  <div class="clearBoth"></div>
+	  </div>
+  </div>
+</div>
+<!-- 装饰器样式结束 -->
+
+
+            </div>  
+            <!--InstanceEndEditable--> 
+          </div>  
+          <!-- 右边结束 -->  
+          <div class="clearBoth"></div> 
+        </div>  
+        <!-- 友情链接开始 -->  
+        <div id="box_main_sub6">
+	<div class="in_products">
+	<div class="in_products_title">友情链接</div>
+    <div class="clearBoth"></div>
+</div>
+<div class="columnSpace"><div class="FrontSpecifies_show01-d3_c1"><div class="describe htmledit">
+       <p>
+       	<!-- START links -->
+		<a href="{url}" title="{name}"><img alt="" src="{WEB_URL}/upd/links_logo/{logo}" alt="{name}"  style="width: 218px; height: 42px;margin-right: 15px" onerror="this.src='{WEB_URL}/html/img/nopic.jpg'"></a>
+		<!-- END links -->
+		
+       </p></div>
+</div></div>
+	</div>  
+        <!-- 友情链接结束 --> 
+      </div>  
+      <!-- 底部版权开始 -->  
+      <div id="box_footer">
+      <div class="columnSpace" id="elem-FrontSpecifies_show01-1389446007005" name="说明页"><div id="FrontSpecifies_show01-1389446007005" class="FrontSpecifies_show01-d3_c1"><div class="describe htmledit">
+       <p style="text-align: center;">
+	版权所有：西昌航飞苦荞科技发展有限公司&nbsp; <a href="http://www.miitbeian.gov.cn/">蜀ICP备10030754号</a>-1&nbsp; 电话：0834-3442022&nbsp; 传真：0834-3442022<br>
+	地址：西昌市安宁镇北工业集中发展区&nbsp; <a href="http://chengdu.300.cn/">中企动力提供技术支持</a>&nbsp; <a href="{WEB_URL}/man/">【后台管理】</a>&nbsp;<a href="http://www.scgswljg.gov.cn/iciaicweb/dzbscheck.do?method=change&amp;id=51340120141114057022" target="_blank"><img alt="" border="0" dragover="true" src="{WEB_URL}/html/img/3336a20a-b6e6-421c-b68c-cedb8b12b591.png" style="height: 32px; width: 32px;"></a></p></div>
+</div></div>
+      </div>  
+      <!-- 底部版权结束 --> 
+    </div> 
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>{gtitle} - 登录</title>
+	{css}
+	{js}
+    <link href="/widget/Hplus/css/login.css" rel="stylesheet">
+	<script src="/ppf/js/jquery-1.min.js"></script> 
+	<script src="/ppf/js/fun.js"></script>
+	
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
+		document.onselectstart = function(){
+			event.returnValue = false;
+		}
+		// 或者直接返回整个事件
+		document.onselectstart = function(){
+			return false;
+		}
+    </script>
+
+</head>
+
+<body class="signin" >
+    <div class="signinpanel animated fadeIn"> 
+        <div class="row">
+            <div class="col-sm-7">
+                <div class="signin-info">
+                    <div class="logopanel m-b">
+                        <h1>CMS-v1.0</h1>
+                    </div>
+                    <div class="m-b"></div>
+                    <h4>欢迎使用</h4>
+                    <strong > <a href="/">回到首页</a></strong>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <form role="form">
+                    <h4 class="no-margins">登录：</h4>
+                    <input type="text" class="form-control uname" placeholder="用户名" id="usr"/>
+                    <input type="password" class="form-control pword m-b" placeholder="密码" id="pwd" onkeydown="if(event.keyCode==13) {dosome();}"/>
+                    <a href="" style="display:none;">忘记密码了？</a>
+                    <button type="button" class="btn btn-primary btn-outline btn-block" id="btn">登录</button>
+					<a class="btn btn-primary" href="{tl_url}" id="tl_url" style="display:none"> 统一登陆 </a> 	 
+                </form>
+            </div>
+        </div>
+        <div class="signup-footer">
+            <div class="pull-left">
+                &copy; 2016 All Rights Reserved. {gtitle}
+            </div>
+        </div>
+    </div>
+	<div id="ologin" style="display:none;color:#333">
+	<ul class="nav nav-tabs">
+		<li class="active" did="band"><a href="javascript:void(0)">绑定现有账号</a></li>
+		<li class="" did="create"><a href="javascript:void(0)">创建新账号</a></li>
+	</ul>
+    <div style="margin-top:20px;">
+		<div id="band" class="col-sm-12">	
+			<input type="text" class="form-control uname" placeholder="用户名" id="usr_b"/>
+			<input type="password" class="form-control pword m-b" placeholder="密码" id="pwd_b"/>			
+			<button type="button" class="btn btn-primary btn-outline btn-block" id="btn_band">绑定</button>
+		</div>
+        <div id="create" class="col-sm-12" style="display:none">
+			<input type="text" class="form-control uname" placeholder="请输入用户名" id="usr_c"/><span class="label label-warning">用户名由3-25位字母、数字、下划线组成</span>
+			<input type="password" class="form-control pword m-b" placeholder="请输入密码" id="pwd_c"/>		
+            <input type="password" class="form-control pword m-b" placeholder="请确认密码" id="pwd2_c"/>				
+			<button type="button" class="btn btn-primary btn-outline btn-block" id="btn_create">创建</button>
+		</div>		
+    </div>               					
+</div>
+</body>
+
+</html>
+<script>  
+var tourl="{tourl}";
+$("#usr").focus();
+
+$(function () {
+	
+    var bid="{bid}";
+	var APP_STATE="{APP_STATE}";
+	var APP_URL="{APP_URL}";
+	if(APP_STATE=='1'){
+	    $("#tl_url").show();
+		if(bid==''){
+			$.getJSON(APP_URL+"/?callback=?",function (data){
+				if (data["ret"] == '1') {
+				  $.post("./srv/plg_tl.php?t=ologin", data, function (d, e) {
+					   if (d.indexOf("err:2") > -1) {
+						   //location.reload();
+						   alert("您没有统一登录权限！");
+						   return false;
+					   }
+					   if (d.indexOf("ok") > -1) {
+						   //location.reload();
+						   dosome(1,data.id);
+						   return false;
+					   }
+					   if(d.indexOf("layer")>-1){
+
+						   layer.open({
+							  type: 1,
+							  title: '统一登录',
+							  shadeClose: true,
+							  shade: 0.8,
+							  area: ['320px', '320px'],
+							  content: $("#ologin")
+							}); 
+							$("#btn_band").click(function(){
+								//alert('asd');
+								$("#usr").val($("#usr_b").val());
+								$("#pwd").val($("#pwd_b").val());
+								//alert($("#usr").val());alert($("#usr").val());
+								dosome(0,data.id);
+							})
+							$("#btn_create").click(function(){
+								if($("#usr_c").val()==""){layer.msg("帐号不能为空");return false;}
+								var patrn=/^([a-zA-Z0-9_]){3,25}$/; 
+								if(!patrn.test($("#usr_c").val())){layer.msg("用户名由3-25位字母、数字、下划线组成");return false;}
+								if($("#pwd_c").val()==""){layer.msg("密码不能为空");return false;} 
+								if($("#pwd_c").val()!=$("#pwd2_c").val()){layer.msg("密码不一致");return false;}
+								$("#usr").val($("#usr_c").val());
+								$("#pwd").val($("#pwd_c").val());
+								dosome(2,data.id);							
+							})
+							return false;
+					   }
+				   });          
+				}
+			
+			})
+		}
+    }
+    $("#btn").bind("click",function(){dosome(0)});
+ });  
+function dosome(ologin,bid){
+	if(ologin=='0'){
+		if($("#usr").val()==""){layer.msg("帐号不能为空");return false;}
+		if($("#pwd").val()==""){layer.msg("密码不能为空");return false;} 
+	}   
+   
+    $.post("./srv/plg.php?", { u: $("#usr").val(), p: $("#pwd").val(),s:($("#sav").is(":checked")?"1" :"0"),'bid':bid,'ologin':ologin }, function (d, e) {
+      d1=JSON.parse(d);
+       if (d1.ret=="ok") {             
+          if(tourl==""){        
+			top.location.href = "/man";
+          }
+          else
+			top.location.href = "/man";
+           //location.href = tourl;
+        }
+        else if(d1.ret=="err"){
+           layer.msg(d1.msg);
+        }
+        else{
+            layer.msg(d);
+        }      
+    });
+}
+$(".nav-tabs li").each(function(){
+	$(this).click(function(){
+		$(this).addClass("active");
+		$(this).siblings().removeClass("active");
+		$("#"+$(this).attr("did")).show();
+		$("#"+$(this).attr("did")).siblings().hide();
+	})
+})
+</script>

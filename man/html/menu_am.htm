@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>功能[添加/编辑]</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+{ppf}
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5 class="panel-title">功能 <small>   [添加/编辑]</small>      </h5>
+				<div class="ibox-tools">
+					<a class="close-link" onclick="window.history.back(-1);">
+						<i class="fa fa-arrow-circle-left">返回</i>
+					</a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form id="form1" class="form-horizontal">
+					<input type="hidden" id="href_state" name="href_state" value="{href_state}"/>
+					<input type="text" id="menu_id" name="menu_id" value="{menu_id}" style="display: none;"/>
+					<input type="text" id="do" name="do" value="{do}" style="display: none;"/>
+					<div class="form-group">    
+					  <label class="col-sm-12">名称</label>  
+						<div class="col-sm-4"> <input id="menu_name" name="menu_name" type="text" class="form-control" maxlength="50"  placeholder="请输入名称" value=""> </div> 
+					 </div> 
+					 <div class="form-group">
+					 <label class="col-sm-12">URL <span class="label label-warning">以/开头的相对路径或者http网址，可为空</span></label>  
+					   <div class="col-sm-4"><input id="menu_url" name="menu_url" type="text" class="form-control" maxlength="50"  placeholder="如/man/?t=index" value=""></div>
+					</div>
+					<div class="form-group">
+					<label class="col-sm-12">图标 <span class="label label-warning">目前为字体图标</span></label>  
+					<div class="col-sm-4">
+					   <div class="input-group">
+					   <span class="input-group-btn"><button type="button" class="btn"><i id="_icon" class="fa"></i></button> </span>
+					   <input id="menu_icon" name="menu_icon" type="text" class="form-control"  val=""/>
+					   <span class="input-group-btn"><button type="button" class="btn btn-primary" onclick="openIcon()">选择</button> </span>       </div>     
+					</div>
+					</div>
+					<div class="form-group"> 
+						<label class="col-sm-12">所属菜单 <span class="label label-warning">[不选则为根菜单]</span></label>   
+						<div class="col-sm-4">
+							<select id="father_menu" name="father_menu" class="form-control" value="">
+								<option value="">——请选择——</option>
+								<!-- START main_menu -->
+								<option value="{menu_id}">{menu_name}</option>
+								<!-- END main_menu -->
+							</select>
+						</div> 
+					</div>
+					<div class="form-group"> 
+						<label class="col-sm-12">是否左侧菜单栏显示</label>   
+						<div class="col-sm-4">
+							<select id="is_show" name="is_show" class="form-control" value="">
+								<option value="">——请选择——</option>
+								<option value="0">否</option>
+								<option value="1">是</option>
+							</select>
+						</div> 
+					</div>
+					<div class="form-group"> 
+						<label class="col-sm-12">是否允许快捷菜单 <span class="label label-warning">[修改/删除类链接不允许]</span></label>   
+						<div class="col-sm-4">
+							<select id="shortcut_allowed" name="shortcut_allowed" class="form-control" value="">
+								<option value="">——请选择——</option>
+								<option value="0">否</option>
+								<option value="1">是</option>
+							</select>
+						</div> 
+					</div>
+					<div class="form-group"> 
+						<label class="col-sm-12">排序 <span class="label label-warning">[大于等于0的整数,值越大越靠后]</span></label>   
+						<div class="col-sm-4"> <input id="odx" name="odx" type="text" class="form-control" maxlength="50" value=""> </div> 
+					</div>
+					<div class="form-group"> 
+						<label class="col-sm-12">描述</label>   
+						<div class="col-sm-4"> <textarea id="menu_desc" type="text" class="form-control" name="menu_desc"></textarea> </div> 
+					</div>
+					<div class="form-group">
+						<div class="col-sm-12"><button type="button" class="btn btn-success" id="btn"> 提交 </button> </div>
+					</div>
+				</form>  
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+<script src="/widget/Hplus/js/plugins/iCheck/icheck.min.js"></script>
+
+<script>
+	$(function(){
+		var dotype=$("#do").val();
+		var menu_id=$("#menu_id").val();
+		if(dotype=="m"){               
+	        readID({"do":"r",id:menu_id,frmid:"#form1",tpl:"osa_menu_url",callback:"checkicon"}); 
+	    }
+		
+		$("#btn").click(function(){
+			SaveAM({"do":dotype,id:menu_id,frmid:"#form1",tpl:"osa_menu_url",showok:"提交成功",callback:"dosome"});
+		});
+	})
+	function dosome(e,data){
+	   if(data.indexOf('ok')>-1){ 
+	      var href_state=$("#href_state").val();
+	      location.href=href_state;
+	   }
+	   else
+	      alert(data);
+	}  
+	function openIcon(){
+		layer.open({
+		  type: 2,
+		  title:"选择图标",
+		  area: ['500px', '530px'],
+		  fixed: false, //不固定
+		  maxmin: true,
+		  shadeClose: true,
+		  shade:0.2,
+		  content: '/man/?t=fontawesome'
+		});
+	}
+	function changeIcon(val){
+		$("#_icon").attr("class",val);
+		$("#menu_icon").val(val);
+	}
+	function checkicon(){
+		var icon=$("#menu_icon").val();
+		if(icon!="")$("#_icon").attr("class",icon);
+	}
+	$("#menu_icon").blur(function(){
+		var icon=$("#menu_icon").val();
+		if(icon!="")$("#_icon").attr("class",icon);
+	});
+</script>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>发文-{gtitle}</title>
+{css}
+{js}
+{ppf}
+</head>
+<style>
+	.Wdate{
+		height: 34px;
+		width: 160px;
+		border: 1px solid #ccc;
+	}
+</style>
+<body>
+ 
+<div class="container">  
+
+ <div class=" panel-default">
+   <div class="panel-body">
+<form id="form1" class="form-horizontal">   
+    <div class="form-group">    
+      <label class="col-sm-1 control-label">名称</label>  
+        <div class="col-sm-7"> <input id="name" type="text" class="form-control" maxlength="50"  placeholder="请输入名称" /> </div> 
+     </div> 
+    <div class="form-group"> 
+        <label class="col-sm-1 control-label">排序</label>   
+        <div class="col-sm-7"> <input id="odx" type="text" class="form-control" value="0" /> </div> 
+    </div>
+  
+  <input type="text" id="id" value="{id}" style="display:none;"/>  
+  <input type="text" id="see" value="0" style="display:none;"/> 
+</form>    
+<div class="form-group">
+<div class="col-sm-12"><button type="button" class="btn btn-success" id="btn"> 立即发 布 </button> </div>
+</div>
+   
+   </div>
+</div>
+
+
+
+</div>
+
+</body>
+</html>
+<script type="text/javascript"> 
+var index = parent.layer.getFrameIndex(window.name); 
+var dotype=queryStr("d"); 
+l_tpl="consult_art_category";
+if(dotype=="m"){               
+	readID({"do":"r",id:queryStr("id"),frmid:"#form1"}); 
+}
+$(function () { 
+  $("#btn_upd").bind("click",function(){ $('#dlg1').modal('show'); });
+  if(dotype=="")dotype="a";       
+    $("#btn").bind("click", function(){  
+      if($("#name").val()==""){alert("请输入一个标题");return;}   
+      if($("#cid").val()==null||$("#cid").val()==""){$("#cid").val('0');}     
+      SaveAM({"do":dotype,frmid:"#form1",showok:"发布成功",callback:"dosome"});
+   });  
+  });
+   
+  function dosome(e,data){
+   if(data.indexOf('ok')>-1){ 
+     update_shtm();
+	 window.parent.location.reload();
+     parent.layer.close(index);  
+   }
+   else
+      alert(data);
+}  
+
+
+</script>
+

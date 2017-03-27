@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>发文-{gtitle}</title>
+{css}
+{js}
+{ppf}
+</head>
+<style>
+	.Wdate{
+		height: 34px;
+		width: 160px;
+		border: 1px solid #ccc;
+	}
+</style>
+<body>
+ 
+<div class="container">  
+<form id="form1" class="form-horizontal">   
+	<hr/>
+    <div class="form-group"> 
+        <label class="col-sm-1 control-label">姓名</label>   
+        <div class="col-sm-11"> <input id="name" type="text" class="form-control" disabled />  </div> 
+    </div>
+    <div class="form-group"> 
+        <label class="col-sm-1 control-label">性别</label>   
+        <div class="col-sm-11"> 
+<select id="sex" class="form-control" disabled=""><option value="0">男</option><option value="1">女</option></select>
+		</div> 
+    </div>
+    <div class="form-group"> 
+        <label class="col-sm-1 control-label">电话</label>   
+        <div class="col-sm-11"> <input id="phone" type="text" class="form-control" disabled  /> </div> 
+    </div>
+    <div class="form-group"> 
+        <label class="col-sm-1 control-label">联系方式</label>   
+        <div class="col-sm-11"> <input id="address" type="text" class="form-control" disabled  /> </div> 
+    </div>
+    <div class="form-group"> 
+        <label class="col-sm-1 control-label">单位</label>   
+        <div class="col-sm-11"> <input id="unit" type="text" class="form-control" disabled  /> </div> 
+    </div>
+    <div class="form-group"> 
+        <label class="col-sm-1 control-label">ip</label>   
+        <div class="col-sm-11"> <input id="ip" type="text" class="form-control" disabled  />  </div> 
+    </div>
+	<hr/>
+    <div class="form-group">    
+      <label class="col-sm-1 control-label">标题</label>  
+        <div class="col-sm-11"> <input id="name" type="text" class="form-control" disabled > </div> 
+     </div> 
+     <div class="form-group">
+     <label class="col-sm-1 control-label">类别</label>  
+       <div class="col-sm-5"><select id="cid" class="form-control" disabled ></select></div>
+    </div>
+     <div class="form-group">
+     <label class="col-sm-1 control-label">咨询内容</label>  
+       <div class="col-sm-11"><textarea id="content" class="form-control" disabled ></textarea></div>
+    </div>
+     <div class="form-group">
+     <label class="col-sm-1 control-label">回复内容</label>  
+       <div class="col-sm-11"><textarea class="form-control" disabled >{backdes}</textarea></div>
+    </div>
+	<hr/>
+    <div class="form-group"> 
+        <label class="col-sm-1 control-label">回复内容</label>   
+        <div class="col-sm-11"> <textarea id="des" type="text" class="form-control" ></textarea></div> 
+    </div>
+    <div class="form-group"> 
+
+  <input type="text" id="id" value="" style="display:none;"/>  
+  <input type="text" id="see" value="0" style="display:none;"/> 
+</form>    
+<div class="form-group">
+<div class="col-sm-12" style="text-align:center;"><button type="button" class="btn btn-success" onclick="banli()">办结</button> </div>
+</div>
+   
+
+</div>
+
+
+
+</div>
+
+
+</body>
+</html>
+<script type="text/javascript"> 
+$("#des").focus();
+var dotype=queryStr("d"); 
+l_tpl="consult_art";
+  $.post("./srv/rdo.php", {tpl:"get_consult_artcate_name"}, function (d, e) {
+    var json = eval(d); //数组   
+    $.each(json, function (index, item) { 
+     //循环获取数据 
+	 var id = json[index].id; 
+     var name = json[index].name; 
+	 $("#cid").prepend('<option value="' + id + '">' + name + '</option>') 
+    }); 
+	$("#cid").prepend("<option value='0'>--所有--</option>");
+	if(dotype=="m"){        
+	 readID({"do":"r",id:queryStr("id"),frmid:"#form1"}); 
+	} 
+  }); 
+ function banli(){
+	 if($("#des").val().replace( /^\s*/, '')!=""){
+	  $.post("./srv/sdo.php", {tpl:"set_consult_art_comment",aid:$("#id").val(),content:$("#des").val()}, function (d, e) {
+		if(d=="ok"){
+		    update_shtm();
+			alert("办结成功");
+			window.parent.location.reload();
+		}
+	  });
+	 }else{
+		layer.msg("回复内容不能为空！");
+		$("#des").focus();
+	 }
+
+ }
+</script>

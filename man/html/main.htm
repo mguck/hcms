@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{gtitle} - 个人资料</title>
+	{css}
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>CMS <small class="m-l-sm">v1.0</small></h5>
+			</div>
+			<div class="ibox-content">
+				<h2>
+					Tips:<br>
+				</h2>
+				<p>1.双击标签栏可刷新当前页面。</p>
+				<p>2.用户组请不要随便删除。</p>
+				<p>3.缩略图点击预览图可查看原图。</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>我的发文统计</h5>
+			</div>
+			<div class="ibox-content no-padding">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<span class="badge badge-success">{total}</span> <span class="text-success">已发布</span>
+					</li>
+					<li class="list-group-item ">
+						<span class="badge badge-primary">{dsh}</span> <span class="text-navy">待审核</span>
+					</li>
+					<li class="list-group-item">
+						<span class="badge badge-info">{ysh}</span> <span class="text-info">已审核</span>
+					</li>
+					<li class="list-group-item">
+						<span class="badge badge-danger">{hsz}</span> <span class="text-danger">回收站</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>快捷菜单</h5>
+			</div>
+			<div class="ibox-content">
+			<!-- START kjcd_list -->
+				<button class="btn btn-info dim J_menuItem" onclick="window.top.menuItemIframe('{menu_url}','0','{menu_name}');" type="button" data-index="0">{menu_name}</button>
+			<!-- END kjcd_list -->
+			</div>
+		</div>
+	</div>
+
+	<div class="col-sm-3">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>友情链接</h5>
+			</div>
+			<div class="ibox-content">
+			<!-- START yqlj_list -->
+				<a class="btn btn-outline btn-link" href="{url}" target="_blank">{name}</a>
+			<!-- END yqlj_list -->
+			</div>
+		</div>
+	</div>
+
+</div>
+<div class="col-sm-6" style="display:none;">
+	<div class="ibox float-e-margins">
+		<div class="ibox-title">
+			<h5>最新消息</h5>
+			<div class="ibox-tools">
+				<span class="label label-danger">2条待审</span>
+			</div>
+		</div>
+		<div class="ibox-content">
+			<div>
+				<div class="feed-activity-list">
+					<div class="feed-element">
+						<a href="profile.html" class="pull-left">
+							<img alt="image" class="img-circle" src="/widget/Hplus/img/profile.jpg">
+						</a>
+						<div class="media-body ">
+							<small class="pull-right">5分钟前</small>
+							<strong>谨斯里</strong> 发布了 <strong><a>《区教研室到南巷小学对新教师进行教学调研》</a></strong>
+							<br>
+							<small class="text-muted">2014.11.8 12:22</small>
+
+						</div>
+					</div>
+
+					<div class="feed-element">
+						<a href="profile.html" class="pull-left">
+							<img alt="image" class="img-circle" src="/widget/Hplus/img/a2.jpg">
+						</a>
+						<div class="media-body ">
+							<small class="pull-right">2个月前</small>
+							<strong>田亮</strong> 发布了 <strong><a>《关于同意设立核电钟声国际幼儿园的批复》</a></strong>
+							<br>
+							<small class="text-muted">2014.11.8 12:22</small>
+						</div>
+					</div>
+
+				</div>
+				<button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> 加载更多</button>
+			</div>
+		</div>
+	</div>
+</div>
+    <!-- 全局js -->
+	{js}
+
+    <!-- 自定义js -->
+    <script src="/widget/Hplus/js/content.js?v=1.0.0"></script>
+
+
+    <!-- Peity -->
+    <script src="/widget/Hplus/js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- Peity -->
+    <script src="/widget/Hplus/js/demo/peity-demo.js"></script>
+</body>
+
+</html>

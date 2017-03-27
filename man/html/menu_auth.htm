@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>功能权限管理</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+{ppf}
+<style>
+	.zl-lh{line-height: 30px;}
+	.zl-mm{margin-right: 20px;margin-bottom: 10px;display: inline-block;min-width: 120px;}
+</style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h3>功能权限管理    <small></small> 
+			   </h3>
+			   <hr/>
+				<div class="row">
+					<label class="col-sm-1 control-label text-center m-b-xs zl-lh">用户组</label>
+					<div class="col-sm-2 m-b-xs zl-zt">
+					   <select id="gid" name="gid" class="form-control input-sm" >
+					   <!-- START group_list -->
+					   <option value="{group_id}">{group_name}</option>
+					   <!-- END group_list -->
+					   </select>  
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-1 control-label text-center m-b-xs zl-lh">常用操作</label>
+					<div class="col-sm-11 m-b-xs">
+					<button type="button" class="btn btn-primary btn-sm btn-outline" id="btn1"> 提交 </button>
+					<button type="button" class="btn btn-primary btn-sm btn-outline" id="btn2"> 重置 </button>
+					</div>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form id="form1" class="form-horizontal">
+				<table class="table  table-hover table-striped table-bordered"> 
+				<thead>
+				<tr>
+				<th><input type="checkbox" class="i-checks" id="checkAll"></th>
+				<th>主功能</th>
+				<th>菜单/页面/功能权限</th>
+				</tr>
+				</thead>
+				<tbody>
+				<!-- START main_menu_list -->
+				<tr class="tr_list"> 
+				<td><input type="checkbox" class="i-checks i-checks-cl i-check-tr" ></td>
+				<td>{menu_name}</td>
+				<td>
+					<span class="zl-mm"><input type="checkbox" class="i-checks i-checks{menu_id} i-checks-cl" name="menu_id[]" value="{menu_id}">{menu_name}</span>
+					<!-- START include_menu_list -->
+					<span class="zl-mm"><input type="checkbox" class="i-checks i-checks{menu_id} i-checks-cl" name="menu_id[]" value="{menu_id}">{menu_name}</span>
+					<!-- END include_menu_list -->
+				</td>
+				</tr>
+				<!-- END main_menu_list -->
+				</tbody>
+				</table>
+				<div class="row">
+
+					<input type="text" id="group_id" name="group_id" style="display: none;"/>
+					<input type="text" id="group_role" name="group_role" style="display: none;"/>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<!-- iCheck -->
+<script src="/widget/Hplus/js/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript"> 
+jsnState=null;
+$(function(){//$("#checkAll").prop("checked","true");
+	var gid=$("#gid").val();
+	get_group_auth(gid);
+	$("#gid").change(function(){
+		gid=$("#gid").val();
+		$('.i-checks').iCheck('uncheck');
+		get_group_auth(gid);
+	})
+	$("#btn1").click(function(){
+		var checked=$("input[name='menu_id[]']:checked");
+		if(checked.length==0){
+			menu_checked_arr='';
+		}else{
+			var menu_checked_arr=[];
+			$.each(checked,function(){
+			    menu_checked_arr.push($(this).val());
+		    })
+			menu_checked_arr=menu_checked_arr.toString();
+		}
+		if(menu_checked_arr==$("#group_role").val()){
+			alert("未改动");return false;//判断选项是否有改动，没有改动则只提示修改成功
+		}
+		$("#group_id").val(gid);
+		$("#group_role").val(menu_checked_arr);
+		//console.log(menu_checked_arr);
+		SaveAM({tpl:"osa_user_group","do":'m',frmid:"#form1",showok:"修改成功",callback:""});
+	})
+	$("#btn2").click(function(){
+		$('.i-checks').iCheck('uncheck'); 
+	})
+})
+function get_group_auth(gid){
+	$.post("./srv/rdo.php",{'gid':gid,'tpl':'get_group_auth'},function(d){
+		var data=eval(d);
+		$("#group_role").val(data.toString());
+		if(data[0]=='')return false;
+		$.each(data,function(i,n) {
+			$('.i-checks'+n).iCheck('check');
+		});
+	})
+}
+$('.i-checks').iCheck({
+	checkboxClass: 'icheckbox_square-green',
+	radioClass: 'iradio_square-green',
+});
+
+$('#checkAll').on('ifClicked',function(e){
+	if($(this).prop("checked")){
+		$('.i-checks').iCheck('uncheck'); 
+	}
+	else{
+		$('.i-checks').iCheck('check');
+	}
+});
+$('.i-checks-cl').on('ifChanged',function(e){
+	$('#checkAll').iCheck('uncheck'); 
+	//console.log($("input[name='id[]']:checked"));
+});
+$('.i-check-tr').on('ifChanged',function(e){
+	if($(this).prop("checked")){
+		$(this).parent().parent().next().next().find(".i-checks").iCheck('check');
+	}
+	else{
+		$(this).parent().parent().next().next().find(".i-checks").iCheck('uncheck');
+	}
+});
+</script>

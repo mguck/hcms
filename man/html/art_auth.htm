@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>文章栏目权限</title>
+    <!--<link rel="stylesheet" href="/widget/zTree/css/metroStyle/metroStyle.css" type="text/css">-->
+    <link rel="stylesheet" href="/widget/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    {css}  
+    {js}
+    <script type="text/javascript" src="/widget/zTree/js/jquery.ztree.all.min.js"></script>
+    <style>
+    	.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>栏目权限管理</h5>
+                    </div>
+                    <div class="ibox-content">
+						<a class="btn btn-sm btn-primary" onclick="window.top.menuItemIframe('/img/tips/art_auth.jpg','0','栏目权限说明');">说明</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>栏目列表</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div id='tree' class="ztree">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>用户组权限</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div>
+                        	<ul class="nav nav-tabs">
+                        		<!-- START group_list -->
+                        		<li><a href="javascript:void(0)" gid="{group_id}" onclick="getArtAuth(this)">{group_name}</a></li>
+								<!-- END group_list -->
+								
+                        	</ul>
+                        	<table class="table table-bordered table-hover" id="gid" ggid="">
+                        		<caption>权限列表 > <span id="gname"></span></caption>
+									<thead>
+									    <tr>
+									        <th>名称</th>
+									        <th>分配权限</th>
+									    </tr>
+									</thead>
+									<tbody>
+									    <tr class="">
+									        <td>允许投稿的栏目</td>
+									        <td>
+									        	<em>[在左侧选择栏目]</em>
+									        </td>
+									    </tr>
+									    <tr>
+									        <td>是否需要审核<em>[默认需要]</em></td>
+									        <td>
+									        	<label class="checkbox-inline">
+												    <input type="radio" name="needAuth" id="need_yes" value="1">是
+												</label>
+												<label class="checkbox-inline">
+												    <input type="radio" name="needAuth" id="need_no" value="0">否
+												</label>
+									        </td>
+									    </tr>
+									    <tr>
+									        <td colspan="2" align="center">
+									        	<a href="javascript:void(0)" class="btn btn-sm btn-success" onclick="changeAuth(this)">修改</a>
+									        </td>
+									    </tr>
+									 </tbody>
+                        	</table>
+                        	<a href="javascript:void(0)" class="btn btn-sm btn-primary" id="btn">全部提交</a>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-primary" id="reset" onclick="window.location.reload()">全部重置</a>
+                        </div>
+                        
+                        
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    
+    <script>
+        var zTreeObj;
+	   // zTree 的参数配置
+	   var setting = {
+		   	view: {
+				//是否允许多选
+				selectedMulti: true,
+				fontCss: setFontCss
+				
+			},
+			data: {
+				simpleData: {
+					enable:true,
+					idKey: "id",
+					pIdKey: "pid",
+					
+				},
+				key: {
+				    //将url属性名称改为xUrl，不允许跳转
+				    url: "xUrl"
+				}
+			},
+			/*edit: {
+				enable:true,
+				drag: {
+					isCopy: false
+				},
+				editNameSelectAll: true
+			},*/
+			check: {
+				enable:true
+			},
+			callback: {
+				/*onClick: OnClick*/
+			}
+	   };
+	   $(document).ready(function(){
+		    $.post("./srv/rdo.php",{"tpl":"get_cate_list"},function(data,ts){
+		    	
+		    	var data=eval(data);
+		   	    zTreeObj = $.fn.zTree.init($("#tree"), setting, data);
+		   	    zTreeObj.expandAll(true);
+		   	    //初始化样式,显示跳转栏目标志,不显示？？？
+				$.each(data,function(i,d){
+					if(d.type=='jump'){
+						var jump_node=zTreeObj.getNodeByParam("id", d.id);
+						jump_node.icon="/widget/zTree/css/zTreeStyle/img/diy/3.png";
+						zTreeObj.updateNode(jump_node);
+					}
+				})
+		   })
+	   });
+	   //初始化样式
+	   function setFontCss(treeId, treeNode) {
+			return treeNode.visible == '0' ? {color:"#C1C1C1"} : {color:"#333"};
+		};
+		
+		
+
+        //ztree获取指定节点下所有层级的节点  nodes为存储节点的数组
+        function getAllNodes(treeNode,nodes){
+        	if(treeNode.children){
+        		$.each(treeNode.children,function(i,d){
+        			nodes.push(d);
+        			getAllNodes(d,nodes);
+        		})
+        	}
+        	return nodes;
+        }
+        
+        //获取指定节点下所有同级的next节点  nextAll为存储节点的数组
+        function getNextAll(node,nextAll){
+        	var next=node.getNextNode();
+        	if(next!=null){
+        		nextAll.push(next);
+        		getNextAll(next,nextAll);
+        	}
+        	return nextAll;
+        }
+        //关联数组长度  
+	    function getObjLength(obj){    
+	        var count=0;   
+	        for (key in obj) {
+			    count++;
+			}   
+	        return count;    
+	    }  
+        //关联数组转普通数组
+        function assToNormal(ass_arr){
+        	var arr=[];
+        	
+        	for(key in ass_arr){
+        		var str=JSON.stringify(ass_arr[key]);//不转化会报错
+        		//alert(typeof ass_arr[key]);
+        		arr.push(str);
+        	}
+        	//console.log(arr);
+        	return arr;
+        }
+        function getTimestamp(){
+        	return (new Date().getTime()).toString();
+        }
+        
+        var artAuth_arr=[];//存储权限信息
+        var artAuth_arr2=[];//存储修改后权限信息
+        $(function(){
+        	$.post("./srv/rdo.php",{'tpl':'getAll_group_art_auth'},function(data){
+        		$.each(eval(data), function(i,d) {
+        			artAuth_arr[d.group_id]=d;
+        		});
+        	})
+        })
+	    
+	    function getArtAuth(e){
+	    	zTreeObj.checkAllNodes(false);
+	    	var gid=$(e).attr("gid");
+	    	$("#gid").attr('ggid',gid);
+	    	$("#gname").text($(e).text());
+	    	var art_auth=artAuth_arr[gid];
+	    	(art_auth.art_audit_auth=='1')?$("#need_yes").prop("checked","true"):$("#need_no").prop("checked","true");
+	    	if(art_auth.art_publish_auth==null)return false;
+	    	var art_pa=(art_auth.art_publish_auth).split(",");//投稿权限数组
+	    	$.each(art_pa,function(i,d){
+	    		var art_auth_id=zTreeObj.getNodeByParam("id", d);
+                if(art_auth_id!=null){
+                	zTreeObj.checkNode(zTreeObj.getNodeByParam("id", d), true, false);
+                }
+	    	})
+	    }
+	    
+	    function changeAuth(e){
+	    	var gid=$("#gid").attr('ggid');
+	    	if(gid==''){layer.msg('请选择用户组');return false;}
+	    	var needAuth=$("input[name='needAuth']:checked").val();//是否需要审核
+	    	var aid=[];//选中栏目的id
+	    	var nodes=zTreeObj.getCheckedNodes(true);
+	    	if(nodes.length==0){
+	    		aid_str='';
+	    	}else{
+	    		$.each(nodes,function(i,d){
+		    		aid.push(d.id);
+		    	})
+		    	aid_str=aid.sort().toString();
+	    	}
+	    	
+	    	var needAuth_old=artAuth_arr[gid].art_audit_auth;
+	    	var aid_old_str=(artAuth_arr[gid].art_publish_auth==null)?'':(artAuth_arr[gid].art_publish_auth).split(",").sort().toString();//权限属性未改变不做记录
+	    	if(aid_str==aid_old_str&&needAuth==needAuth_old){alert('未改变');return false;}
+	    	artAuth_arr2[gid]={'group_id':gid,'art_publish_auth':aid_str,'art_audit_auth':needAuth};
+	    	layer.msg('ok');
+	    }
+	    
+	    $("#btn").click(function(){
+	    	artAuth_arr2=assToNormal(artAuth_arr2);//关联数组转普通数组
+	    	if(artAuth_arr2.length!=0){
+	    		$.post("./srv/sdo.php",{'tpl':'deal_art_auth','change':artAuth_arr2},function(data){
+	        		if(data=='-1'){
+	        			layer.msg('操作失败');
+	        		}else{
+	        			layer.msg('操作成功');
+	        		}
+	        		setTimeout("location.reload()",1000);
+	        	})
+	    	}
+	    	
+	    })
+	    
+	    //比较数组元素是否相同
+	    function isSame(arr1,arr2){
+	    	//排序再转字串
+	    	return arr1.sort().toString()==arr2.sort().toString();
+	    }
+
+    </script>
+
+</body>
+
+</html>

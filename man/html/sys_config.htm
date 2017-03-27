@@ -1,0 +1,346 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>核心全局参数设置</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}         
+<script type="text/javascript" charset="gbk"  src="/widget/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="gbk"  src="/widget/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="gbk"  src="/widget/ueditor/lang/zh-cn/zh-cn.js"></script> 
+</head>
+<body class="gray-bg" style="height:100%;">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+	    <div class="ibox float-e-margins">
+			<form id="form1" class="form-horizontal">
+				<div class="ibox-title">
+					<h5>核心全局参数设置</h5>
+					<div class="ibox-tools">
+						<a class="close-link" onclick="window.history.back(-1);">
+							<i class="fa fa-arrow-circle-left">返回</i>
+						</a>
+					</div>
+				</div>
+				<div class="ibox-content">
+					<ul class="nav nav-tabs">
+					    <li class="active" did="web"><a href="javascript:void(0)">网站信息</a></li>
+					    <li class="" did="db"><a href="javascript:void(0)">数据库</a></li>
+					    <li class="" did="tlogin"><a href="javascript:void(0)">统一登录</a></li>
+                        <li class="" did="tupload"  style="display:none;"><a href="javascript:void(0)">文件上传</a></li>
+                        <li class="" did="static"><a href="javascript:void(0)">静态化设置</a></li>
+                        <li class="" did="tcomment" style="display:none;"><a href="javascript:void(0)">内容评论</a></li>
+                        <li class="" did="tsecurity" style="display:none;"><a href="javascript:void(0)">安全配置</a></li>
+					</ul>
+					<div style="margin-top:20px;">
+						<div id="web">
+							<div class="form-group">
+							    <label for="web_name" class="col-sm-2 control-label">网站名称</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="web_name" id="web_name" value="">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="web_url" class="col-sm-2 control-label">网站地址</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="web_url" id="web_url" value="">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="web_keyword" class="col-sm-2 control-label">网站关键词</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="web_keyword" id="web_keyword" value="">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="web_des" class="col-sm-2 control-label">网站描述</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="web_des" id="web_des" value="">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="web_email" class="col-sm-2 control-label">管理员邮箱</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="web_email" id="web_email" value="">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="web_state" class="col-sm-2 control-label">网站状态</label>
+							    <div class="col-sm-7">
+									<div class="radio i-checks ">
+										<label>
+											<input type="radio" value="1" id="web_state" name="web_state"> <i></i> 打开</label>
+									</div>
+									<div class="radio i-checks">
+										<label>
+											<input type="radio" value="0" name="web_state" > <i></i> 关闭</label>
+									</div>
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="web_close_reason" class="col-sm-2 control-label">网站关闭原因</label>
+							    <div class="col-sm-7">
+							    	<textarea class="form-control" name="web_close_reason" id="web_close_reason"></textarea>
+							    </div>
+							</div>
+						</div>
+						<div id="db" style="display: none;">
+							<div class="form-group">
+							    <label for="db_database" class="col-sm-2 control-label">数据库类型</label>
+							    <div class="col-sm-7">
+								  <input type="text" class="form-control fc" value="{DB_DATABASE}" readonly="readonly">
+							      <input type="text" class="form-control" id="db_database" value="" style="display: none;">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="db_host" class="col-sm-2 control-label">主机名</label>
+							    <div class="col-sm-7">
+								  <input type="text" class="form-control fc" value="{DB_HOST}" readonly="readonly">
+							      <input type="text" class="form-control" id="db_host" value="" style="display: none;">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="db_port" class="col-sm-2 control-label">端口</label>
+							    <div class="col-sm-7">
+								  <input type="text" class="form-control fc" value="{DB_PORT}" readonly="readonly">
+							      <input type="text" class="form-control" id="db_port" value="" style="display: none;">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="db_user" class="col-sm-2 control-label">用户名</label>
+							    <div class="col-sm-7">
+								  <input type="text" class="form-control fc" value="{DB_USER}" readonly="readonly">
+							      <input type="text" class="form-control" id="db_user" value="" style="display: none;">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="db_pwd" class="col-sm-2 control-label">密码</label>
+							    <div class="col-sm-7">
+                                  <input type="text" class="form-control fc" value="{DB_PWD}" readonly="readonly">
+							      <input type="text" class="form-control" id="db_pwd" value="" style="display: none;">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="db_name" class="col-sm-2 control-label">数据库名</label>
+							    <div class="col-sm-7">
+								  <input type="text" class="form-control fc" value="{DB_NAME}" readonly="readonly">
+							      <input type="text" class="form-control" id="db_name" value="" style="display: none;">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="db_charset" class="col-sm-2 control-label">字符集编码</label>
+							    <div class="col-sm-7">
+								  <input type="text" class="form-control fc" value="{DB_CHARSET}" readonly="readonly">
+							      <input type="text" class="form-control" id="db_charset" value="" style="display: none;">
+							    </div>
+							</div>
+							
+						</div>
+						<div id="tlogin" style="display: none;">
+						    <div class="form-group">
+							    <label for="app_state" class="col-sm-2 control-label">是否开启统一登录</label>
+							    <div class="col-sm-7">
+									<div class="radio i-checks ">
+										<label>
+											<input type="radio" value="0" id="app_state" name="app_state"> <i></i> 否</label>
+									</div>
+									<div class="radio i-checks">
+										<label>
+											<input type="radio" value="1" name="app_state" > <i></i> 是</label>
+									</div>
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="app_login" class="col-sm-2 control-label">统一登陆地址</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="app_login" id="app_login" value="">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="app_url" class="col-sm-2 control-label">统一登录接口地址</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="app_url" id="app_url" value="">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="app_id" class="col-sm-2 control-label">当前网站ID</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="app_id" id="app_id" value="">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="app_key" class="col-sm-2 control-label">当前网站key</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="app_key" id="app_key" value="">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="app_orgid" class="col-sm-2 control-label">当前网站所属机构ID</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="app_orgid" id="app_orgid" value="">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="app_opta" class="col-sm-2 control-label">是否对其他机构的成员开放</label>
+							    <div class="col-sm-7">
+							      <div class="radio i-checks ">
+										<label>
+											<input type="radio" value="0" id="app_opta" name="app_opta"> <i></i> 否</label>
+									</div>
+									<div class="radio i-checks">
+										<label>
+											<input type="radio" value="1" name="app_opta" > <i></i> 是											
+											</label>
+											<input type="text" class="form-control" name="app_opta_oid" id="app_opta_oid" placeholder="此处可单独指定开放的机构的ID，中间以英文逗号“,”隔开，默认对所有机构开放">
+									</div>
+							    </div>
+							</div>
+						</div>
+						<div id="tupload" style="display: none;">待开发。。。</div>
+						<div id="static" style="display: none;">
+						    <div class="form-group">
+							    <label for="s_state" class="col-sm-2 control-label">是否生成静态页面</label>
+							    <div class="col-sm-7">
+									<div class="radio i-checks ">
+										<label>
+											<input type="radio" value="0" id="s_state" name="s_state"> <i></i> 否</label>
+									</div>
+									<div class="radio i-checks">
+										<label>
+											<input type="radio" value="1" name="s_state" > <i></i> 是</label>
+									</div>
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="s_root_path" class="col-sm-2 control-label">静态文件根目录</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="s_root_path" id="s_root_path" value="" placeholder="不支持中文目录">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="s_expir" class="col-sm-2 control-label">静态文件有效期</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="s_expir" id="s_expir" value="" placeholder="大于0的整数天，默认7天">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="s_auto_clean" class="col-sm-2 control-label">是否开启自动清理</label>
+							    <div class="col-sm-7">
+									<div class="radio i-checks">
+										<label>
+											<input type="radio" value="0" id="s_auto_clean" name="s_auto_clean"> <i></i> 否</label>
+									</div>
+									<div class="radio i-checks">
+										<label>
+											<input type="radio" value="1" name="s_auto_clean" > <i></i> 是</label>
+									</div>
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="s_auto_clean_expir" class="col-sm-2 control-label">自动清理的间隔时间</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="s_auto_clean_expir" id="s_auto_clean_expir" value="" placeholder="大于0的整数天，默认15天">
+							    </div>
+							</div>
+							<div class="form-group">
+							    <label for="" class="col-sm-2 control-label">操作</label>
+							    <div class="col-sm-7">
+							      <a href="javascript:void(0)" class="btn btn-danger" id="s_del">删除所有静态页面</a>
+							    </div>
+							</div>
+						</div>
+						<div id="tcomment" style="display: none;">待开发。。。</div>
+						<div id="tsecurity" style="display: none;">待开发。。。</div>
+					</div>
+					<div class="row text-center">
+					    <div class="col-sm-12">
+					    	<button type="button" class="btn btn-success btn-sm" id="btn">保存并更新配置</button>
+					    	<input type="text" name="id" id="id" value="1" style="display: none;">
+					    	<!--<button type="button" class="btn btn-success btn-sm" id="btn">生成配置信息</button>--> 
+					    </div>
+					</div>
+				</div>
+			    
+			
+			</form>    
+	    </div>
+	</div>
+
+</div>
+
+</body>
+<!-- iCheck -->
+<script src="/widget/Hplus/js/plugins/iCheck/icheck.min.js"></script>
+<script src="/ppf/js/frtdo.js"></script>
+<script src="/ppf/js/jquery.base64.js" type="text/javascript"></script>
+<script>
+	$(function(){
+		$(".nav-tabs li").each(function(){
+			$(this).click(function(){
+				$(this).addClass("active");
+				$(this).siblings().removeClass("active");
+				$("#"+$(this).attr("did")).show();
+				$("#"+$(this).attr("did")).siblings().hide();
+			})
+		})
+
+		readID({"do":"r",id:$("#id").val(),frmid:"#form1",callback:"loadcheck"});
+		
+		$("#btn").click(function(){
+			$(".fc").each(function(){
+				$(this).siblings().val($(this).val());		
+			})
+			if(isChineseChar($("#s_root_path").val())){
+			    alert("不支持中文目录！");
+				return false;
+			}
+			if(!/^[1-9]*$/.test($("#s_expir").val())){
+			    alert("请输入大于0的整数！");
+				return false;
+			}
+			if(!/^[1-9]*$/.test($("#s_auto_clean_expir").val())){
+			    alert("请输入大于0的整数！");
+				return false;
+			}
+		    SaveAM({"do":'m',frmid:"#form1",callback:"dosome"});
+		})
+		
+		$("#s_del").click(function(){
+		    if(!confirm("确定要删除吗？"))return;
+			$.post("/man/srv/sys_fun.php",{tpl:'s_del'},function(d,t){
+				if(d.indexOf('ok')>-1){
+					alert("操作成功");
+				}else{
+					alert("操作失败");
+				}
+			})
+			
+		})
+	})
+
+	function loadcheck(){
+		$('.i-checks').iCheck({
+			checkboxClass: 'icheckbox_square-green',
+			radioClass: 'iradio_square-green',
+		});
+	}
+	
+
+	function dosome(e,data){
+		//console.log(data);
+		$.post("./srv/sys_fun.php",{tpl:'gen'},function(d,t){
+			if(d.indexOf('ok')>-1){
+				alert("操作成功");
+			}else{
+				alert("操作失败");
+			}
+		})
+	}
+	
+	//是否含有中文（也包含日文和韩文）
+	function isChineseChar(str){   
+	   var reg = /[\u4E00-\u9FA5\uF900-\uFA2D]/;
+	   return reg.test(str);
+	}
+</script>
+</html>

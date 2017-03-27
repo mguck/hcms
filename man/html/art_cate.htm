@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>文章栏目管理</title>
+    <!--<link rel="stylesheet" href="/widget/zTree/css/metroStyle/metroStyle.css" type="text/css">-->
+    <link rel="stylesheet" href="/widget/zTree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+    {css}  
+    {js}
+    <script type="text/javascript" src="/widget/zTree/js/jquery.ztree.all.min.js"></script>
+    <style>
+    	.ztree li span.button.add {margin-left:2px; margin-right: -1px; background-position:-144px 0; vertical-align:top; *vertical-align:middle}
+
+    </style>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content  animated fadeInRight">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+
+                        <h4>栏目管理</h4>
+                        可在栏目列表中拖拽栏目改变其位置和结构
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>栏目列表</h5>
+                        <div class="ibox-tools">
+							<span class="badge badge-success">点击栏目后进行操作</span>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div id='tree' class="ztree">
+                        	
+                        	
+                        	
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>栏目操作</h5>
+                        <div class="ibox-tools" style="margin-top:-7px;">
+                        	<a href="javascript:void(0)" class="btn btn-sm btn-primary" id="btn">提交</a>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-primary" id="reset">重置</a>
+                        </div>
+                    </div>
+                    <div class="ibox-content r1">
+                    	<p>操作说明：</p>
+                    	<p>（1）左侧为栏目树状列表，可进行增加、删除、拖拽、移动顺序操作。</p>
+                    	<p>（2）点击左侧栏目，右侧会出现相应栏目设置，设置完毕后需点击【修改】按钮。</p>
+                    	<p>（3）全部操作结束后需点击【提交】按钮，否则各项修改不会保存。</p>
+                    </div>
+                    <div class="ibox-content r2" style="display: none;">
+                    	<form role="form" class="form-horizontal">
+                    		<div class="form-group">
+							    <label for="tname" class="col-sm-2 control-label">栏目名称</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="tname" id="tname" value="">
+							    </div>
+							</div>
+							
+							<div class="form-group">
+							    <label for="todx" class="col-sm-2 control-label">同级栏目下排序</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="todx" id="todx" value="">
+							    </div>
+							</div>
+							
+							<div class="form-group">
+							    <label for="ttype" class="col-sm-2 control-label">栏目类型</label>
+							    <div class="col-sm-7">
+							        <select class="form-control" name="ttype" id="ttype">
+								      <option value="arts">默认</option>
+								      <option value="sht_pam1">首页图文列表模块1【固定】</option>
+								      <option value="sht_pam2">首页图文列表模块2【固定】</option>
+								      <option value="sht_pam3">首页图文列表模块3【自由】</option>
+								      <option value="sht_logo">首页logo图片/动画</option>
+								      <option value="sht_banner">首页banner幻灯片</option>
+								      <option value="sht_product">首页产品展示滚动</option>
+								      <option value="sht_honor">首页荣誉资质滚动</option>
+								    </select>         
+							    </div>
+							</div>  
+							<!--<div class="form-group turl" style="display: none;">
+							    <label for="turl" class="col-sm-2 control-label">栏目跳转URL</label>
+							    <div class="col-sm-7">
+							      <input type="text" class="form-control" name="turl" id="turl" value="">
+							    </div>
+							</div>-->
+							
+							<div class="form-group">
+							  <label name="tvis" class="col-sm-2 control-label">是否在顶部菜单处显示</label>  
+							  <div class="col-sm-7">           
+								<label><input type="radio" name="tvis" value="1">是</label>
+								<label><input type="radio" name="tvis" value="0">否</label>
+								<span class="label label-warning">只对一级菜单有效，默认显示</span></label>
+							  </div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">栏目文章排序</label>
+								<div class="col-sm-7">
+									<label for="odb">排序字段</label>
+									<select class="form-control" name="odb" id="todb">
+										<option value="">默认</option>
+		                        		<option value="CreateTime">修改时间</option>
+		                        		<option value="timestamp">发布时间</option>
+		                        		<option value="id">文章id</option>
+		                        		<option value="see">浏览次数</option>
+									</select>
+									<label for="scend">排序方式</label>
+									<select class="form-control" name="scend" id="tscend">
+										<option value="">默认</option>
+		                        		<option value="desc">降序</option>
+		                        		<option value="asc">升序</option>
+									</select>
+									<label for="isatc">是否应用到子栏目</label>
+									<select class="form-control" name="isatc" id="tisatc">
+										<option value="">默认</option>
+		                        		<option value="1">是</option>
+		                        		<option value="0">否</option>
+									</select>
+									<span class="label label-warning">默认按文章修改时间降序并应用到现有子栏目。如需对全局设置，只需选中根目录设置即可</span></label>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-sm-2 control-label">栏目页模板</label>
+								<div class="col-sm-7">
+									<label for="cstyle">选择模板</label>
+									<select class="form-control" name="cstyle" id="tcstyle">
+										<option value="">默认</option>
+		                        		<option value="c1">栏目模板一</option>
+		                        		<option value="c2">栏目模板二</option>
+		                        		<option value="c3">栏目模板三</option>
+		                        		<option value="c4">栏目模板四</option>
+									</select>									
+									<label for="isatc">是否应用到子栏目</label>
+									<select class="form-control" name="iscst" id="tiscst">
+										<option value="">默认</option>
+		                        		<option value="1">是</option>
+		                        		<option value="0">否</option>
+									</select>
+									<span class="label label-warning">如需对全局设置，只需选中根目录设置即可</span></label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">内容页模板</label>
+								<div class="col-sm-7">
+									<label for="astyle">选择模板</label>
+									<select class="form-control" name="astyle" id="tastyle">
+										<option value="">默认</option>
+		                        		<option value="a1">内容模板一</option>
+		                        		<option value="a2">内容模板二</option>
+		                        		<option value="a3">内容模板三</option>
+		                        		<option value="a4">内容模板四</option>
+									</select>									
+									<label for="isatc">是否应用到子栏目</label>
+									<select class="form-control" name="isast" id="tisast">
+										<option value="">默认</option>
+		                        		<option value="1">是</option>
+		                        		<option value="0">否</option>
+									</select>
+									<span class="label label-warning">如需对全局设置，只需选中根目录设置即可</span></label>
+								</div>
+							</div>
+							<div class="form-group">
+							    <div class="col-sm-offset-2 col-sm-10">
+							      <button type="button" id="edit" class="btn btn-success">修改</button>
+							    </div>
+							</div>
+                    	</form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    
+    <script>
+        var zTreeObj;
+	   // zTree 的参数配置
+	   var setting = {
+		   	view: {
+		   		addHoverDom: addHoverDom,
+				removeHoverDom: removeHoverDom,
+				//是否允许多选
+				selectedMulti: true,
+				fontCss: setFontCss
+				
+			},
+			data: {
+				simpleData: {
+					enable:true,
+					idKey: "id",
+					pIdKey: "pid",
+					
+				}
+			},
+			edit: {
+				enable:true,
+				drag: {
+					isCopy: false
+				},
+				editNameSelectAll: true
+			},
+			/*check: {
+				enable:true
+			},*/
+			callback: {
+				beforeRemove: BeforeRemove,
+				onRemove: OnRemove,
+				beforeEditName: BeforeEditName,
+				onRename: OnRename,
+				beforeDrop: BeforeDrop,
+				onDrop: OnDrop,
+				onClick: OnClick
+			}
+	   };
+	   $(document).ready(function(){
+		    $.post("./srv/rdo.php",{"tpl":"get_cate_list"},function(data,ts){
+		    	
+		    	var data=eval(data);
+		   	    zTreeObj = $.fn.zTree.init($("#tree"), setting, data);
+		   	    zTreeObj.expandAll(true);
+		   	    //初始化样式,显示跳转栏目标志
+				/*$.each(data,function(i,d){
+					if(d.type=='jump'){
+						var jump_node=zTreeObj.getNodeByParam("id", d.id);
+						jump_node.icon="/widget/zTree/css/zTreeStyle/img/diy/3.png";
+						zTreeObj.updateNode(jump_node);
+					}
+				})*/
+		   })
+	   });
+	   //初始化样式
+	   function setFontCss(treeId, treeNode) {
+			return treeNode.visible == '0' ? {color:"#C1C1C1"} : {color:"#333"};
+		};
+		
+		
+
+	   //存储新增记录
+        var add_arr=[];
+		function addHoverDom(treeId, treeNode) {
+			var sObj = $("#" + treeNode.tId + "_span");
+			if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+			var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+				+ "' title='add node' onfocus='this.blur();'></span>";
+			sObj.after(addStr);
+			var btn = $("#addBtn_"+treeNode.tId);
+			if (btn) btn.bind("click", function(){
+				var newNode={id:getTimestamp(),pid:treeNode.id,name:'new node',visible:"1",type:"arts",isadd:'1',odb:'CreateTime',scend:'desc',isatc:'1',iscst:'1',cstyle:null,isast:'1',astyle:null};
+				var zTree_newNode=(zTreeObj.addNodes(treeNode, newNode))[0];//此处zTree_newNode为数组，取0
+				var pre=zTree_newNode.getPreNode();
+            	zTree_newNode.odx=(pre==null)?0:(parseInt(pre.odx)+1); //设置顺序
+				add_arr[zTree_newNode.tId]=zTree_newNode;
+				return false;
+			});
+		};
+		function removeHoverDom(treeId, treeNode) {
+			$("#addBtn_"+treeNode.tId).unbind().remove();
+		};
+		
+        function BeforeRemove(treeId, treeNode){
+        	//console.log(getAllNodes(treeNode,nodes));return false;
+        	if(treeNode.level > 0&&window.confirm("将会删除此节点及其所有子节点")){
+        		return true;
+        	}else{
+        		return false;
+        	}
+        	
+        }
+        
+        //存储删除记录
+        var remove_arr=[];//【关联数组】
+        function OnRemove(event,treeId, treeNode){
+        	var nodes=[treeNode];
+        	var nodes_all=getAllNodes(treeNode,nodes);//获取该节点下所有级节点
+        	
+        	$.each(nodes_all,function(i,d){
+        		if(d.isadd!=undefined){
+        			delete add_arr[d.tId];//若此节点为新增节点，则删除关联数组add_arr中记录
+	        	}else{
+	        		remove_arr[d.tId]=d;
+	        	}
+        	})
+        	
+        }
+        
+        function BeforeEditName(treeId, treeNode) {
+			return treeNode.level > 0;
+		}
+        //存储修改记录
+        var rename_arr=[];
+        function OnRename(event, treeId, treeNode){
+        	//var tNode=zTreeObj.getNodeByTId(treeNode.tId);
+        	if(treeNode.isadd!=undefined){
+        		add_arr[treeNode.tId]=treeNode;//若此节点为新增节点，则记录到add_arr中
+        		return false;
+        	}
+        	rename_arr[treeNode.tId]=treeNode;//以tId为键，多次修改则只记录最新的
+
+        }
+        
+        function BeforeDrop(treeId, treeNodes, targetNode, moveType){
+        	return !(targetNode == null || (moveType != "inner" && !targetNode.parentTId));//禁止将节点拖拽成为根节点
+        }
+        //存储拖拽记录
+        var drop_arr=[];
+        function OnDrop(event, treeId, treeNodes, targetNode, moveType) {
+        	//当选中父节点和其子节点拖拽时，treeNodes只代表父节点
+            $.each(treeNodes,function(i,t){
+            	//处理排序:1、t.odx=zTreeObj.getNodeIndex(t);//获取某节点在同级节点中的序号（从0开始）【此方法行不通】
+            	//2、思路：拖拽后，当前节点odx为前一个同级节点odx+1，后续所有同级节点odx修改为当前odx+1
+            	var t_pre=t.getPreNode();
+            	var t_nextAll=[];
+            	t_nextAll=getNextAll(t,t_nextAll);//获取所有next节点
+            	t.odx=(t_pre==null)?0:(parseInt(t_pre.odx)+1);
+            	if(t_nextAll.length!=0){
+            		for(var k=0;k<t_nextAll.length;k++){
+            			var n=t_nextAll[k];
+            			var n_pre=n.getPreNode();
+            			n.odx=parseInt(n_pre.odx)+1;
+            			if(n.isadd!=undefined){
+			        		add_arr[n.tId]=n;//若此节点为新增节点，则记录到add_arr中
+			        	}else{
+			        		drop_arr[n.tId]=n;
+			        	}
+            		}
+            	}
+            	
+            	if(t.isadd!=undefined){
+	        		add_arr[t.tId]=t;//若此节点为新增节点，则记录到add_arr中
+	        	}else{
+	        		drop_arr[t.tId]=t;
+	        	}
+            })
+        }
+        
+       
+        //点击事件，用于设置单个属性
+        function OnClick(event, treeId, treeNode){
+        	//初始化
+        	$(".r1").hide();$(".r2").show();
+        	$("#tname").val(treeNode.name);
+        	$("#todx").val(treeNode.odx);
+        	$("#ttype").val(treeNode.type);
+        	$("input[name='tvis'][value='"+treeNode.visible+"']").prop("checked",true);
+        	$("#todb").val(treeNode.odb);
+        	$("#tscend").val(treeNode.scend);
+        	$("#tisatc").val(treeNode.isatc);
+        	$("#tiscst").val(treeNode.iscst);
+        	$("#tcstyle").val(treeNode.cstyle);
+        	$("#tisast").val(treeNode.isast);
+        	$("#tastyle").val(treeNode.astyle);
+        	/*if($("#ttype").val()=='jump'){
+        		$(".turl").show();
+        		$("#turl").val(treeNode.url);
+        	}else{
+        		$(".turl").hide();
+        	}*/
+        	//处理事件
+        	/*$("#ttype").unbind('change').change(function(){
+				if($(this).val()=='jump'){
+					$(".turl").show();
+				}else{
+					$(".turl").hide();
+				}
+			})*/
+    		$("#edit").unbind('click').click(function(){
+    			//栏目下文章排序
+	        	var odb=($("#todb").val()=='')?'CreateTime':$("#todb").val();
+        		var scend=($("#tscend").val()=='')?'desc':$("#tscend").val();
+        		var isatc=($("#tisatc").val()=='')?'1':$("#tisatc").val();
+        		//栏目页模板
+        		var cstyle=($("#tcstyle").val()=='')?'':$("#tcstyle").val();
+        		var iscst=($("#tisatc").val()=='')?'1':$("#tiscst").val();
+        		//内容页模板
+        		var astyle=($("#tastyle").val()=='')?'':$("#tastyle").val();
+        		var isast=($("#tisast").val()=='')?'1':$("#tisast").val();
+        		if(treeNode.odb!=odb||treeNode.scend!=scend||treeNode.isatc!=isatc||treeNode.cstyle!=cstyle||treeNode.iscst!=iscst||treeNode.astyle!=astyle||treeNode.isast!=isast){
+        			treeNode.odb=odb;treeNode.scend=scend;treeNode.isatc=isatc;
+        			treeNode.cstyle=cstyle;treeNode.iscst=iscst;
+        			treeNode.astyle=astyle;treeNode.isast=isast;
+	        		//根目录只记录子节点
+	        		if(treeNode.level>0){
+	        			if(treeNode.isadd!=undefined){
+			        		add_arr[treeNode.tId]=treeNode;
+			        	}else{
+			        		rename_arr[treeNode.tId]=treeNode;
+			        	}
+	        		}
+	        		//应用到子栏目
+	        		if(isatc=='1'||iscst=='1'||isast=='1'){
+	        			var nodes=[];
+	        			nodes=getAllNodes(treeNode,nodes);
+	        			$.each(nodes,function(){
+	        				if(isatc=='1'){this.odb=odb;this.scend=scend;}
+			        		if(iscst=='1'){this.cstyle=cstyle;}
+			        		if(isast=='1'){this.astyle=astyle;}			        		
+			        		if(this.isadd!=undefined){
+				        		add_arr[this.tId]=this;
+				        	}else{
+				        		rename_arr[this.tId]=this;
+				        	}
+	        			})
+	        		}
+        		}
+        		
+    			if(treeNode.level>0){
+    				
+    				//先处理栏目排序，再处理其他属性
+		        	//处理同级栏目排序，为空或不变时则为原值，不做处理
+		        	if($("#todx").val()!=''&&$("#todx").val()!=treeNode.odx){
+		        		treeNode.odx=parseInt($("#todx").val());
+		        		var tnodes=zTreeObj.getNodesByParam("pid", treeNode.pid, null);//获取同级节点
+			        	var odx_arr=[];
+			        	$.each(tnodes,function(i,t){
+			        		odx_arr.push(parseInt(t.odx));
+			        	})
+			        	odx_arr.sort(function(a,b){return a-b});//升序
+			        	var tindex=indexOf(odx_arr,treeNode.odx);//获取修改排序后的节点在同级父节点下的序号
+			        	//控制移动节点的相对位置
+			        	if(tindex<=zTreeObj.getNodeIndex(treeNode)){
+			        		var treeNode_new=zTreeObj.moveNode(tnodes[tindex],treeNode,"prev");
+			        	}else{
+			        		var treeNode_new=zTreeObj.moveNode(tnodes[tindex],treeNode,"next");
+			        	}
+			        	if(treeNode_new.isadd!=undefined){
+			        		add_arr[treeNode_new.tId]=treeNode_new;//若此节点为新增节点，则记录到add_arr中
+			        	}else{
+			        		drop_arr[treeNode_new.tId]=treeNode_new;
+			        	}
+			        	
+		        	}
+		        	//为空或不变则为原值
+                    var change_arr=[];
+		        	if($("#tname").val()!=''&&$("#tname").val()!=treeNode.name){treeNode.name=$("#tname").val();change_arr.push(treeNode.name);}
+		        	if($("#ttype").val()!=treeNode.type){treeNode.type=$("#ttype").val();change_arr.push(treeNode.type);}
+		        	/*treeNode.icon=null;
+		        	if($("#ttype").val()=='jump'&&$("#turl").val()!=treeNode.url){
+		        		treeNode.icon="/widget/zTree/css/zTreeStyle/img/diy/3.png";
+		        		treeNode.url=$("#turl").val();
+		        		change_arr.push(treeNode.url);
+		        	}*/
+		        	//设置节点是否显示，只对一级目录有效
+		        	if(treeNode.level==1&&$("#tvis").val()!=treeNode.visible){
+		        		var tvis=$("input[name='tvis']:checked").val();
+		        		tvis=='1'?set_visible2('1',"#333",treeNode):set_visible2('0',"#C1C1C1",treeNode);
+		        		change_arr.push(treeNode.visible);
+		        	}
+		        	if(change_arr.length>0){
+		        		if(treeNode.isadd!=undefined){
+			        		add_arr[treeNode.tId]=treeNode;
+			        	}else{
+			        		rename_arr[treeNode.tId]=treeNode;
+			        	}
+		        	}
+
+		        	zTreeObj.updateNode(treeNode);
+		        	alert("ok");
+    			}
+    		})
+  
+        }
+        function set_visible(val,color,treeNode){
+        	if(treeNode.visible!=val){
+	    		treeNode.visible=val;
+	    		zTreeObj.setting.view.fontCss["color"]=color;
+	    		if(treeNode.isadd!=undefined){
+	        		add_arr[treeNode.tId]=treeNode;//若此节点为新增节点，则记录到add_arr中
+	        	}else{
+	        		rename_arr[treeNode.tId]=treeNode;//此处考虑保存顺序add>drop>rename>remove
+	        	}
+	        	zTreeObj.updateNode(treeNode);
+        	    layer.msg("操作成功");
+	    	}
+        }
+        function set_visible2(val,color,treeNode){
+        	if(treeNode.visible!=val){
+	    		treeNode.visible=val;
+	    		zTreeObj.setting.view.fontCss["color"]=color;
+	        	//zTreeObj.updateNode(treeNode);
+	    	}
+        }
+        
+        //保存
+        $("#btn").click(function(){
+		   	/*console.log(add_arr);
+		   	console.log(drop_arr);
+		   	console.log(rename_arr);
+		   	console.log(remove_arr);return false;*/
+            //关联数组转为普通数组
+            add_arr=assToNormal(add_arr);
+            drop_arr=assToNormal(drop_arr);
+            rename_arr=assToNormal(rename_arr);
+            remove_arr=assToNormal(remove_arr);
+            //return false;
+		   	if(add_arr.length==0&&drop_arr.length==0&&rename_arr.length==0&&remove_arr.length==0)return false;
+
+		    var send_data={"add":add_arr,"drop":drop_arr,"rename":rename_arr,"remove":remove_arr,"tpl":"dealNode"};
+		   	
+		   	$.post("./srv/sdo.php",send_data,function(d){alert(d);
+		   		if(d=='1'){
+				    update_shtm();
+		   			alert("操作成功");
+		   		}else{
+		   			alert("操作失败");
+		   		}
+		   		setTimeout("location.reload()",1000);
+		   		
+		   	})
+		   	
+		})
+        $("#reset").click(function(){
+        	location.reload();
+        })
+        //ztree获取指定节点下所有层级的节点  nodes为存储节点的数组
+        function getAllNodes(treeNode,nodes){
+        	if(treeNode.children){
+        		$.each(treeNode.children,function(i,d){
+        			nodes.push(d);
+        			getAllNodes(d,nodes);
+        		})
+        	}
+        	return nodes;
+        }
+        
+        //获取指定节点下所有同级的next节点  nextAll为存储节点的数组
+        function getNextAll(node,nextAll){
+        	var next=node.getNextNode();
+        	if(next!=null){
+        		nextAll.push(next);
+        		getNextAll(next,nextAll);
+        	}
+        	return nextAll;
+        }
+        //关联数组长度  
+	    function getObjLength(obj){    
+	        var count=0;   
+	        for (key in obj) {
+			    count++;
+			}   
+	        return count;    
+	    }  
+        //关联数组转普通数组
+        function assToNormal(ass_arr){
+        	var arr=[];
+        	
+        	for(key in ass_arr){
+        		var str=JSON.stringify(ass_arr[key]);//不转化会报错
+        		//alert(typeof ass_arr[key]);
+        		arr.push(str);
+        	}
+        	//console.log(arr);
+        	return arr;
+        }
+        function getTimestamp(){
+        	return (new Date().getTime()).toString();
+        }
+        //数组中元素的位置
+	    function indexOf(arr,item){
+		  if(!arr){
+		     return -1;
+		  }
+		  for(var i=0;i<arr.length;i++){
+		    if(arr[i]==item){
+		      return i;
+		    }
+		  }
+		  return -1;
+		}
+	   
+    </script>
+
+</body>
+
+</html>

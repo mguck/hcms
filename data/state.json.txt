@@ -1,0 +1,1 @@
+{"0":"<span class='label label-info'>申请中</span>","1":"审核中","2":"<span class='label label-success'>已审核</span>","3":"申请注销","4":"<span class='label label-danger'>等待删除</span>"}

@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>友情链接管理</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+<script src="/ppf/js/frtdo.js"></script>
+<style>
+	.zl-lh{line-height: 30px;}
+</style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h3>友情链接列表 </h3>
+			   <hr/>
+				<div class="row">
+					<label class="col-sm-1 control-label text-center m-b-xs zl-lh">常用操作</label>
+					<div class="col-sm-11 m-b-xs">
+							<a href="./?t=links" class="btn btn-primary btn-outline btn-sm" >刷新</a>
+							<a href="./?t=links_am&do=a" class="btn btn-primary btn-sm J_menuItem">新增</a>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-1 control-label text-center m-b-xs zl-lh">批量操作</label>
+					<div class="col-sm-11 m-b-xs">
+						<a onclick="deleteALL()" class="btn btn-danger btn-outline btn-sm" target=_blank>删除</a>
+					</div>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<table class="table  table-hover table-striped"> 
+				<thead>
+				<tr>
+				<th><input type="checkbox" class="i-checks" id="checkAll"></th>
+				<th>ID</th>
+				<th>logo</th>
+				<th>名称</th>
+				<th>URL</th>
+				<th>排序</th>
+				<th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<!-- START links_list -->
+				<tr id="row{id}" class="tr_list"> 
+				<td><input type="checkbox" class="i-checks i-checks-cl" name="id[]" value="{id}"></td>
+				<td>{id}</td>
+				<td><a _img="{logo}" class="look_img">查看</a><img src="/upd/links_logo/{logo}" width="72" onerror="this.src='/error/pic.jpg';" style="display:none;"/></td>
+				<td>{name}</td>
+				<td>{url}</td>
+				<td>{odx}</td>
+				<td>
+				<a class="glyphicon glyphicon-pencil J_menuItem" title="编辑" href="./?t=links_am&do=m&id={id}"></a>
+				<a class="glyphicon glyphicon-remove" title="删除" onclick="deleteID(this,'{id}')"></a>
+				</td>
+				</tr>
+				<!-- END links_list -->   
+				</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<!-- iCheck -->
+<script src="/widget/Hplus/js/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript"> 
+jsnState=null;
+$('.i-checks').iCheck({
+	checkboxClass: 'icheckbox_square-green',
+	radioClass: 'iradio_square-green',
+});
+
+$('#checkAll').on('ifClicked',function(e){
+	if($(this).prop("checked")){
+		$('.i-checks').iCheck('uncheck'); 
+	}
+	else{
+		$('.i-checks').iCheck('check');
+	}
+});
+$('.i-checks-cl').on('ifChanged',function(e){
+	$('#checkAll').iCheck('uncheck'); 
+	//console.log($("input[name='id[]']:checked"));
+});
+
+function deleteID(e,id) {
+	layer.confirm('将会删除该项，是否确认？', {
+	    btn: ['确认','取消'] //按钮
+	}, function(){
+		layer.closeAll();
+	    var send_data={'do':'d','id':id,'tpl':'del_links'};
+        $.post("./srv/sdo.php", send_data, function (d) {
+	   	    if(d.indexOf("ok")>-1){
+	   	    	$("#row"+id).remove();
+				update_shtm();
+	   	    	alert("操作成功");
+		    }
+        });
+	}, function(){
+		layer.closeAll();
+	    return false;
+    });
+}
+
+function deleteALL(){
+	layer.confirm('将会删除所选项，是否确认？', {
+	    btn: ['确认','取消'] //按钮
+	}, function(){
+		layer.closeAll();
+		var checkboxs=[];
+		$(".i-checks-cl").each(function(){
+			if($(this).prop("checked")){
+				checkboxs.push($(this).val());
+			}
+		})
+		if(checkboxs.length==0){alert('没有选择项');return false;}
+	    var send_data={'do':'d','id':checkboxs,'tpl':'del_links_all'};
+        $.post("./srv/sdo.php", send_data, function (d) {
+	   	    if(d.indexOf("ok")>-1){
+	   	    	for(var i=0;i<checkboxs.length;i++){
+	   	    		$("#row"+checkboxs[i]).remove();
+	   	    	}
+				update_shtm();
+	   	    	alert("操作成功");
+		    }
+        });
+	}, function(){
+		layer.closeAll();
+	    return false;
+    });
+	
+}
+$('.look_img').each(function(){
+	var img=$(this).attr('_img');
+	if(img){
+	$(this).bind('click',function(e){
+		layer.open({
+		  type: 1,
+		  shadeClose: true,
+		  title: false, //不显示标题
+		  content: "<a href='/upd/links_logo/"+img+"' target='_blank'><img src='/upd/links_logo/"+img+"' style='width:100%;'/></a>"
+		});
+	});
+	$(this).show();
+	}else{
+		$(this).remove();
+	}
+});
+
+</script>

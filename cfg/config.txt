@@ -1,0 +1,46 @@
+﻿<?php
+//网站信息配置
+define('WEB_NAME', '{web_name}');//网站名称
+define('WEB_URL', '{web_url}');//网站地址
+define('WEB_KEYWORD', '{web_keyword}');//网站关键词，多个用逗号隔开
+define('WEB_DES', '{web_des}');//网站描述
+define('WEB_EMAIL', '{web_email}');//管理员邮箱
+define('WEB_STATE', '{web_state}');//网站状态
+define('WEB_CLOSE_REASON', '{web_close_reason}');//网站关闭原因
+
+//数据库配置
+define('DB_DATABASE', '{db_database}');//数据库类型
+define('DB_HOST', '{db_host}');//主机名
+define('DB_PORT', '{db_port}');//端口
+define('DB_USER', '{db_user}');//用户名
+define('DB_PWD', '{db_pwd}');//密码
+define('DB_NAME', '{db_name}');//数据库名
+define('DB_CHARSET', '{db_charset}'); //数据库字符集 utf8
+
+//统一登录配置
+define('APP_STATE', '{app_state}');//是否开启统一登录
+define('APP_LOGIN', '{app_login}');//统一登陆地址
+define('APP_URL', '{app_url}');//统一登录接口地址
+define('APP_ID', '{app_id}');//当前网站ID
+define('APP_KEY', '{app_key}');//当前网站key
+define('APP_ORGID', '{app_orgid}');//当前网站所属机构ID
+define('APP_OPTA', '{app_opta}');//是否对其他机构开放
+define('APP_OPTA_OID', '{app_opta_oid}');//指定可统一登录的其他机构id
+
+//公共全局变量
+define('DIR_ROOT', $_SERVER['DOCUMENT_ROOT']);
+define('DATA_PRE', 'a');
+define('LR_NAME', 'NJCMS');  
+define('LR_VER', 'ver1.0');
+
+//静态化
+define('S_STATE', '{s_state}');//是否开启静态化功能
+define('S_ROOT_PATH', '{s_root_path}');//静态文件根目录
+define('S_EXPIR', '{s_expir}');//静态文件有效期(整数天，超过有效期则重新创建该文件)
+define('S_AUTO_CLEAN', '{s_auto_clean}');//是否开启自动清理(默认开启)
+define('S_AUTO_CLEAN_EXPIR', '{s_auto_clean_expir}');//自动清理的间隔时间(整数天，默认15，即15天清理一次超过有效期的静态文件)
+
+//定时器任务时间戳
+define('TIMER', '1490067073');
+
+?>

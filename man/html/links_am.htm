@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>友情链接[添加/编辑]</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+{ppf}
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5 class="panel-title">友情链接<small>   [添加/编辑]</small>      </h5>
+				<div class="ibox-tools">
+					<a class="close-link" onclick="window.history.back(-1);">
+						<i class="fa fa-arrow-circle-left">返回</i>
+					</a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form id="form1" class="form-horizontal">
+					<label class="col-sm-12">logo（友情链接图标，可单独显示或用于链接背景）</label>  
+					<div class="form-group">
+						<div class="col-sm-1">
+                            <img class="img-responsive" id="logo_img" src="" style="width:100%;" onerror="this.src='/error/face.jpg'">
+                        </div>
+						<div class="col-sm-1">
+									<button type="button" class="btn btn-default btn-sm btn-block" onclick="$('#dlg1').modal('show');"><i class="fa fa-envelope"></i> 上传logo</a></button>
+								</div>
+					  <label class="col-sm-12">名称</label>  
+						<div class="col-sm-4"> <input id="name" name="name" type="text" class="form-control" maxlength="50"  placeholder="请输入名称" value=""> </div> 
+					 </div> 
+					 <div class="form-group">
+					 <label class="col-sm-12">URL (例如:http://www.baidu.com)</label>  
+					   <div class="col-sm-4"><input id="url" name="url" type="text" class="form-control" maxlength="50"  placeholder="请输入链接地址" value=""></div>
+					</div>
+					<div class="form-group"> 
+						<label class="col-sm-12">排序 <span class="label label-warning">[大于等于0的整数,值越大越靠后]</span></label>   
+						<div class="col-sm-4"> <input id="odx" name="odx" type="text" class="form-control" maxlength="50" value=""> </div> 
+					</div>
+					
+					<div class="form-group">
+						<div class="col-sm-12"><button type="button" class="btn btn-success" id="btn"> 提交 </button> </div>
+						<input id="id" name="id" type="text" class="form-control" value="" style="display: none;">
+						<input id="logo" name="logo" type="text" class="form-control" value="" style="display: none;">
+					</div>
+				</form>  
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+
+<script>
+	$(function(){
+		var dotype=queryStr("do");
+		var id=queryStr("id");
+		$("#id2").val(id);
+		
+		if(dotype=="m"){               
+	        readID({"do":"r",id:id,frmid:"#form1",tpl:"links",callback:"showlogo"}); 
+	    }
+			
+		$("#btn").click(function(){
+			SaveAM({"do":dotype,"id":id,frmid:"#form1",tpl:"links",showok:"提交成功",callback:"dosome"});
+		});
+	})
+	function showlogo(e,data){
+    	$("#logo_img").prop("src","/upd/links_logo/"+$("#logo").val());
+    }
+	function dosome(e,data){
+	   if(data.indexOf('ok')>-1){ 
+	      update_shtm();
+	      location.href="/man/?t=links";
+	   }
+	   else
+	      alert(data);
+	}  
+	function ifrm_dosome(){    
+		v=$("#ifrm").contents().find("body").html();
+		if(v!=""){     
+		   d=JSON.parse(v);
+		   if(d.ret=="ok"){      
+		   	$("#logo").val(d.fname);
+		   	$("#logo_img").prop("src","/upd/links_logo/"+d.fname);
+			 //location.reload();
+		   }
+		   else{
+			 alert(d.des);
+		   }        
+		}      
+	}   	
+
+</script>
+</html>
+<div class="modal" id="dlg1" tabindex="-1" role="dialog"    aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="label">上传图片（根据个人需求上传合适的尺寸）</h4>
+         </div>
+         <div class="modal-body">
+<form class="form-horizontal" role="form" action="./srv/upd_logo_links.php" enctype="multipart/form-data" method="post" id="from2" name="from2" target="ifrm">
+  <div class="form-group"> 
+    <label class="col-sm-2 control-label">logo</label>
+    <div class="col-sm-10">
+    <input id="file" name="file" type="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*" />  
+    <input type="text" id="id2" name="id2" value="" style="display:none;"/>
+    <span class="help-block">(.jpg,.png,.gif图片)</span>
+    </div>
+  </div> 
+</form>
+         </div>
+         <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn" onclick="$('#from2').submit(); ">提交更改</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>             
+         </div>
+      </div>
+   </div>
+</div>
+
+<iframe src="" name="ifrm" id="ifrm" style="display:none" onload="ifrm_dosome()"></iframe>

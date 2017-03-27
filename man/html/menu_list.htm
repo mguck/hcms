@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>功能列表管理</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+<style>
+	.zl-lh{line-height: 30px;}
+</style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h3>功能列表     <small></small> 
+			   </h3>
+			   <hr/>
+				<div class="row">
+					<form role="form" method="post" id="from1">
+						<label class="col-sm-1 control-label text-center m-b-xs zl-lh">主功能</label>
+						<div class="col-sm-2 m-b-xs zl-zt">
+						   <select id="mid" name="mid" class="form-control input-sm" >
+						   <option value="">--所有--</option>
+						   <!-- START main_menu -->
+						   <option value="{menu_id}">{menu_name}</option>
+						   <!-- END main_menu -->
+						   </select>  
+						</div>
+						<label class="col-sm-1 control-label text-center m-b-xs zl-lh">是否为菜单</label>
+						<div class="col-sm-1 m-b-xs zl-zt">
+						   <select id="ism" name="ism" class="form-control input-sm" >
+						   <option value="">所有</option>
+						   <option value="1">是</option>
+						   <option value="2">否</option>
+						   </select>  
+						</div>
+						<div class="col-sm-3 m-b-xs">
+							<div class="input-group">
+								<input type="text" id="so" value="" placeholder="请输入关键词" class="input-sm form-control"> <span class="input-group-btn">
+									<button type="button" class="btn btn-sm btn-primary" id="btnq"> 搜索</button> </span>
+							</div>
+						</div>  
+					</form> 
+
+				</div>
+				<div class="row">
+					<label class="col-sm-1 control-label text-center m-b-xs zl-lh">常用操作</label>
+					<div class="col-sm-11 m-b-xs">
+							<input type="button" class="btn btn-primary btn-sm btn-outline" value="清空" onclick="$('#from1')[0].reset();"/>
+							<a href="./?t=menu_list" class="btn btn-primary btn-outline btn-sm" >刷新</a>
+							<a href="./?t=menu_am&do=a&href_state={href_state}" class="btn btn-primary btn-sm J_menuItem">新增</a>
+					</div>
+				</div>
+				<div class="row">
+					<label class="col-sm-1 control-label text-center m-b-xs zl-lh">批量操作</label>
+					<div class="col-sm-11 m-b-xs">
+						<a onclick="deleteALL()" class="btn btn-danger btn-outline btn-sm" target=_blank>删除</a>
+					</div>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<table class="table  table-hover table-striped"> 
+				<thead>
+				<tr>
+				<th><input type="checkbox" class="i-checks" id="checkAll"></th>
+				<th>ID</th>
+				<th>名称</th>
+				<th>图标</th> 
+				<th>URL</th>
+				<th>菜单列表</th>
+				<th>所属菜单</th>
+				<th>快捷菜单</th>
+				<th>描述</th>
+				<th>排序</th>
+				<th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<!-- START menu_list -->
+				<tr id="row{menu_id}" father_menu="{father_menu}" class="tr_list"> 
+				<td><input type="checkbox" class="i-checks i-checks-cl" name="id[]" value="{menu_id}"></td>
+				<td>{menu_id}</td>
+				<td>{menu_name}</td>
+				<td><i class="{menu_icon}"></i></td>
+				<td>{menu_url}</td>
+				<td class="isMenu">{is_show}</td>
+				<td>{pmenu_name}</td>
+				<td class="isSmenu">{shortcut_allowed}</td>
+				<td>{menu_desc}</td>
+				<td>{odx}</td>
+				<td>
+				<a class="glyphicon glyphicon-pencil J_menuItem" title="编辑" href="./?t=menu_am&do=m&id={menu_id}&href_state={href_state}"></a>
+				<a class="glyphicon glyphicon-remove" title="删除" onclick="deleteID(this,'{menu_id}')"></a>
+				</td>
+				</tr>
+				<!-- END menu_list -->   
+				</tbody>
+				</table>
+				<ul class="pagination">
+				{page}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<!-- iCheck -->
+<script src="/widget/Hplus/js/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript"> 
+jsnState=null;
+ $(function () {
+   $("#so").val("{so}");
+   $("#mid").val("{mid}");
+   $("#ism").val("{ism}");
+   $(".isMenu").each(function(){
+   	   ($(this).text()=='1')?$(this).text("是"):$(this).text("否");
+   })
+   $(".isSmenu").each(function(){
+   	   ($(this).text()=='1')?$(this).text("允许"):$(this).text("不允许");
+   })
+  $("#btnq").bind("click",function(){ 
+      location.href="./?t=menu_list&mid="+$("#mid").val()+"&ism="+$("#ism").val()+"&so="+$("#so").val();  
+  });  
+    
+ });  
+function deleteID(e,menu_id) {
+	layer.confirm('将会删除该菜单以及子菜单，是否确认？', {
+	    btn: ['确认','取消'] //按钮
+	}, function(){
+		layer.closeAll();
+	    var send_data={'do':'d','menu_id':menu_id,'tpl':'del_menu_url'};
+        $.post("./srv/sdo.php", send_data, function (d) {
+	   	    if(d.indexOf("ok")>-1){
+	   	    	$("#row"+menu_id).remove();
+	   	        $(".tr_list").each(function(){
+	   	      	    if($(this).attr("father_menu")==menu_id){
+	   	      		    $(this).remove();
+	   	      	}
+	   	      })
+		    }
+        });
+	}, function(){
+		layer.closeAll();
+	    return false;
+    });
+}
+
+function deleteALL(){
+	layer.confirm('将会删除所选菜单及其子菜单，是否确认？', {
+	    btn: ['确认','取消'] //按钮
+	}, function(){
+		layer.closeAll();
+		var checkboxs=[];
+		$(".i-checks-cl").each(function(){
+			if($(this).prop("checked")){
+				checkboxs.push($(this).val());
+			}
+		})
+		if(checkboxs.length==0)return false;
+	    var send_data={'do':'d','menu_id':checkboxs,'tpl':'del_menu_url_all'};
+        $.post("./srv/sdo.php", send_data, function (d) {
+	   	    if(d.indexOf("ok")>-1){
+	   	    	for(var i=0;i<checkboxs.length;i++){
+	   	    		$("#row"+checkboxs[i]).remove();
+	   	    		$(".tr_list").each(function(){
+		   	      	    if($(this).attr("father_menu")==checkboxs[i]){
+		   	      		    $(this).remove();
+	   	      	        }
+		   	      	})    
+	   	    	}
+		    }
+        });
+	}, function(){
+		layer.closeAll();
+	    return false;
+    });
+	
+}
+
+$('.i-checks').iCheck({
+	checkboxClass: 'icheckbox_square-green',
+	radioClass: 'iradio_square-green',
+});
+
+$('#checkAll').on('ifClicked',function(e){
+	if($(this).prop("checked")){
+		$('.i-checks').iCheck('uncheck'); 
+	}
+	else{
+		$('.i-checks').iCheck('check');
+	}
+});
+$('.i-checks-cl').on('ifChanged',function(e){
+	$('#checkAll').iCheck('uncheck'); 
+	//console.log($("input[name='id[]']:checked"));
+});
+
+</script>

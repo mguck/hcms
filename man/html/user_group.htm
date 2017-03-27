@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>用户组管理</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+{ppf}
+<style>
+	.zl-lh{line-height: 30px;}
+</style>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="col-sm-12">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h3>用户组列表     <small></small> 
+			   </h3>
+			   <hr/>
+				<div class="row">
+					<label class="col-sm-1 control-label text-center m-b-xs zl-lh">常用操作</label>
+					<div class="col-sm-4 m-b-xs">
+						<a href="./?t=group_am&do=a&href_state={href_state}" class="btn btn-primary btn-outline btn-sm J_menuItem">新增</a>
+						<input type="hidden" id="href_state" name="href_state" value="{href_state}"/>
+					</div>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<table class="table  table-hover table-striped"> 
+				<thead>
+				<tr>
+				<!--<th><input type="checkbox" class="i-checks" id="checkAll"></th>-->
+				<th>ID</th>
+				<th>名称</th>
+				<th>描述</th>
+				<th>操作</th>
+				</tr>
+				</thead>
+				<tbody>
+				<!-- START group_list -->
+				<tr id="row{group_id}" class="tr_list"> 
+				<!--<td><input type="checkbox" class="i-checks i-checks-cl" name="id[]" value="{group_id}"></td>-->
+				<td>{group_id}</td>
+				<td>{group_name}</td>
+				<td>{group_desc}</td>
+				<td>
+				<a class="glyphicon glyphicon-list-alt J_menuItem" title="查看群组成员" href="./?t=user_list&gid={group_id}"></a>
+				<a class="glyphicon glyphicon-pencil J_menuItem" title="编辑" href="./?t=group_am&do=m&id={group_id}&href_state={href_state}"></a>
+				<a class="glyphicon glyphicon-remove" title="删除" onclick="deleteID(this,'{group_id}')"></a>
+				</td>
+				</tr>
+				<!-- END group_list -->   
+				</tbody>
+				</table>
+				<ul class="pagination">
+				{page}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+<!-- iCheck -->
+<script src="/widget/Hplus/js/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript"> 
+jsnState=null;
+
+function deleteID(e,group_id) {
+    if(group_id=='1'||group_id=='2'){alert('系统用户组，请勿删除');return false;}
+	layer.confirm('将会删除该用户组，是否确认？', {
+	    btn: ['确认','取消'] //按钮
+	}, function(){
+		layer.closeAll();
+	    var send_data={'do':'d','group_id':group_id,'tpl':'del_user_group'};
+        $.post("./srv/sdo.php", send_data, function (d) {
+	   	    if(d.indexOf("ok")>-1){
+	   	    	$("#row"+group_id).remove();
+		    }
+        });
+	}, function(){
+		layer.closeAll();
+	    return false;
+    });
+}
+
+
+</script>

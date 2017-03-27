@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+<title>用户[添加/编辑]</title>
+<link href="/widget/Hplus/css/plugins/iCheck/custom.css" rel="stylesheet">
+{css}  
+{js}
+{ppf}
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+<div class="col-sm-12">
+	<div class="ibox float-e-margins">
+		<div class="ibox-title">
+			<h5>用户     <small>[添加/编辑]</small> </h5>
+		</div>
+		<div class="ibox-content">
+				<input type="hidden" id="href_state" name="href_state" value="{href_state}"/>
+			<form class="form-horizontal" role="form" method="post" id="form1">
+				<div class="form-group">
+				  <label class="col-sm-2 control-label">姓名：</label>
+				  <div class="col-sm-4"><input type="text" class="form-control" id="truename" maxlength=10></div>
+				</div>
+				<div class="form-group">
+				  <label class="col-sm-2 control-label">昵称：</label>
+				  <div class="col-sm-4"><input type="text" class="form-control" id="nick" ></div>
+				</div>
+				<div class="form-group">
+				  <label class="col-sm-2 control-label">邮箱：</label>
+				  <div class="col-sm-4"><input type="text" class="form-control" id="email" placeholder="邮箱"></div>
+				</div>
+				<div class="form-group">
+				  <label class="col-sm-2 control-label">手机：</label>
+				  <div class="col-sm-4"><input type="text" class="form-control" id="mobile" onkeyup="value=value.replace(/[^0-9]/g,'')"></div>
+				</div>
+				<div class="form-group">
+				  <label class="col-sm-2 control-label">身份证号：</label>
+				  <div class="col-sm-4"><input type="text" class="form-control" id="cardno" maxlength=18></div>
+				</div>
+				<div class="form-group">
+				  <label class="col-sm-2 control-label">密码(不修改则不变)：</label>
+				  <div class="col-sm-3"><input type="password" class="form-control" id="pass" ></div>
+				</div> 
+			 
+				<div class="form-group">
+				  <label class="col-sm-2 control-label">性别：</label>  
+				  <div class="col-sm-6">           
+					<label><input type="radio" flag="no" name="sex"   value="1" >男</label>
+					<label><input type="radio" id="sex" name="sex" value="0" >女</label>
+				  </div>
+				</div>   
+				<div class="form-group">
+				 <div class="col-sm-8 col-sm-offset-2">         
+				  <button type="button" class="btn btn-primary" id="btn2"> 确定 </button>
+				  </div>
+				</div>  
+				<input id="id" type="text"  value="" style="display:none;">    
+				<input id="addr" type="text" value="" style="display:none;"/> 
+				<input id="addrs" type="text" value="" style="display:none;"/> 
+				<input id="school" type="text"  value="" style="display:none;">     
+			</form>    
+		</div>
+	</div>
+</div>
+</div>
+</body>
+
+<script src="/widget/Hplus/js/plugins/iCheck/icheck.min.js"></script>
+
+<script type="text/javascript"> 
+var jsonAddr=null;
+ $(function () {    
+    $.get("/data/type.txt", function (data) {$("#idtype").append("<option value=''>——选择——</option>");$("#idtype").append(data);});   
+    $.get("/data/grade_n1.txt", function (data) {$("#grade").append("<option value=''>——选择——</option>");$("#grade").append(data);});
+    $.get("/data/subject.txt", function (data) {$("#subject").append("<option value=''>——选择——</option>");$("#subject").append(data);}); 
+    $.get("/data/addr_n1.txt", function (data) {$("#addr1").append("<option value=''>—地址—</option>");$("#addr1").append(data);}); 
+    $.getJSON("/data/addrs.json.txt", function (data) {jsonAddr=data;}); 
+    $.get("/data/school.txt", function (data) {$("#sch").append("<option value=''>—学校—</option>");$("#sch").append(data);}); 
+
+    if(queryStr("do")=="m"){
+      readID({tpl:"act_member","do":"r",id:queryStr("id"),frmid:"#form1",callback:"readcallback"});  
+    }
+    //event handle
+    $("#addr1").bind("change",function(){
+      v=$(this).val();  if(v==""){ $("#addr").val("");return false;} 
+      $("#addr").val(v);           
+      getaddr1(v);
+      $("#addrv").val(jsonAddr[v]);
+    });
+    $("#grade").bind("change",function(){
+      if($(this).val()==""){ $("#period").val("");return false;}
+      period=$(this).find('option:selected').data("period");
+      $("#period").val(period); 
+    });
+    $("#sch").bind("change",function(){
+      if($(this).val()==""){ $("#school").val("");return false;} 
+      $("#school").val($(this).val());        
+      $("#schoolv").val($(this).find('option:selected').text()); 
+    });
+    
+ });
+ function getaddr1(v){
+     $.post("./srv/rdo.php?", {"tpl":"get_addr_sch","id":v}, function (d, e) {
+       selectShowData('#sch', eval(d), "id", "name");      
+      });  
+ }
+
+function readcallback(e,d){  
+  if($("#addr").val()!="")$("#addrv").val(jsonAddr[$("#addr").val()]);
+  if($("#school").val()!="")
+    $.post("./srv/rdo.php?", {"tpl":"get_sch_s","id":$("#school").val()}, function (d, e) {                  
+         $("#schoolv").val($.trim(d));    
+      });    
+} 	
+
+$("#btn2").click(function(){
+	var dotype=queryStr("do");
+	if($("#username").val()==""){
+  	    alert("用户名不能为空");return false;
+    }else if($("#pass").val()==""&&dotype=='a'){
+    	alert("密码不能为空");return false;
+    }else if($("#user_group").val()==""){
+    	alert("请选择用户组");return false;
+    }else{
+    	if($("#pass").val()==""&&dotype=='m'){
+	    	//$("#pass").remove();
+	    }
+  	    //检测用户名是否存在
+  	    var timestamp=new Date().getTime();
+  	    $.post("./srv/sdo.php?st="+timestamp, {"tpl":"chkreg","u":$("#username").val()}, function (d, e) {            
+	        if(parseInt(d)>=1&&dotype=='a'){
+	        	alert("用户名已存在！");return false;
+	        }else if(parseInt(d)>1&&dotype=='m'){
+	        	alert("用户名已存在！");return false;
+	        }else{
+	        	SaveAM({tpl:"act_member","do":queryStr("do"),id:$("#id").val(),frmid:"#form1",showok:"成功",callback:""});
+				parent.location.reload();
+	        }
+        });
+    }
+})
+
+
+</script>    
+</html>

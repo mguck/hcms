@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>冠邦CMS后台管理 - 个人资料</title>
+	
+	{css}
+	<script type="text/javascript">
+	var sexarr=new Array("女","男");
+	</script>
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row animated fadeInRight">
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>个人头像</h5>
+                    </div>
+                    <div>
+                        <div class="ibox-content no-padding border-left-right">
+                            <img class="img-responsive" src="/upd/face/{id}.jpg" style="width:100%;" onerror="this.src='/error/face.jpg'">
+                        </div>
+                        <div class="ibox-content profile-content">
+							<div class="row">
+								<div class="col-sm-6">
+									<button type="button" class="btn btn-primary btn-sm btn-block" onclick="layopen('profile_am&do=m&id={id}')"><i class="fa fa-coffee"></i> 修改资料</button>
+								</div>
+								<div class="col-sm-6">
+									<button type="button" class="btn btn-default btn-sm btn-block" onclick="$('#dlg1').modal('show');"><i class="fa fa-envelope"></i> 上传头像</a></button>
+								</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>基本信息</h5>
+                    </div>
+
+                    <div class="ibox-content no-padding">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class="badge badge-success">{username}</span> 用户名
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge badge-success">{truename}</span> 姓名
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge badge-success"><script type="text/javascript">document.write(sexarr[{sex}]);</script></span> 性别
+                            </li>
+                            <li class="list-group-item ">
+                                <span class="badge badge-success">{nick}</span> 昵称
+                            </li>
+                            <li class="list-group-item ">
+                                <span class="badge badge-success">{email}</span> 邮箱
+                            </li>
+                            <li class="list-group-item ">
+                                <span class="badge badge-success">{mobile}</span> 手机
+                            </li>
+                            <li class="list-group-item ">
+                                <span class="badge badge-success">{cardno}</span> 身份证
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+	{js}
+
+    <!-- 自定义js -->
+    <script src="/widget/Hplus/js/content.js?v=1.0.0"></script>
+
+
+    <!-- Peity -->
+    <script src="/widget/Hplus/js/plugins/peity/jquery.peity.min.js"></script>
+
+    <!-- Peity -->
+    <script src="/widget/Hplus/js/demo/peity-demo.js"></script>
+
+	<script type="text/javascript">
+		function layopen(tpl){
+			layer.open({
+			  type: 2,
+			  title: false,
+			  shadeClose: true,
+			  shade: 0.5,
+			  area: ['650px', '700px'],
+			  content: '/man/?t='+tpl 
+			}); 
+		}
+
+		function ifrm_dosome(){    
+			v=$("#ifrm").contents().find("body").html();
+			if(v!=""){       
+			   d=JSON.parse(v);
+			   if(d.ret=="ok"){      
+				 location.reload();
+			   }
+			   else{
+				 alert(d.des);
+			   }        
+			}      
+		}   	
+	</script>
+</body>
+
+</html>
+<div class="modal" id="dlg1" tabindex="-1" role="dialog"    aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="label">上传头像</h4>
+         </div>
+         <div class="modal-body">
+<form class="form-horizontal" role="form" action="./srv/updp_tx.php" enctype="multipart/form-data" method="post" id="from2" name="from2" target="ifrm">
+  <div class="form-group"> 
+    <label class="col-sm-2 control-label">logo</label>
+    <div class="col-sm-10">
+    <input id="file" name="file" type="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*" />  
+    <input type="text" id="id" name="id" value="{id}" style="display:none;"/>
+    <span class="help-block">(上传不大于200kb的.jpg图片 尺寸 120x120)</span>
+    </div>
+  </div> 
+</form>
+         </div>
+         <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btn" onclick="$('#from2').submit(); ">提交更改</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>             
+         </div>
+      </div>
+   </div>
+</div>
+
+<iframe src="" name="ifrm" id="ifrm" style="display:none" onload="ifrm_dosome()"></iframe>
